@@ -15,11 +15,11 @@ export { carTitle };
 const PUBLIC = path.join(process.cwd(), "public");
 const IMG = /\.(jpe?g|png|webp|avif)$/i;
 const SPEC_LABELS: Record<string, string> = {
-  engine: "Engine", power: "Power", drivetrain: "Drivetrain", range: "Range", armor_level: "Armour level",
+  engine: "Engine", power: "Power", drivetrain: "Drivetrain", range: "Range",
   torque: "Torque", transmission: "Transmission", battery: "Battery", acceleration: "Acceleration", seats: "Seats",
   topSpeed: "Top speed", economy: "Fuel economy", charging: "Fast charging",
 };
-const SPEC_ORDER = ["engine", "battery", "range", "power", "torque", "transmission", "drivetrain", "acceleration", "topSpeed", "charging", "economy", "seats", "armor_level"];
+const SPEC_ORDER = ["engine", "battery", "range", "power", "torque", "transmission", "drivetrain", "acceleration", "topSpeed", "charging", "economy", "seats"];
 const specRank = (k: string) => { const i = SPEC_ORDER.indexOf(k); return i < 0 ? 99 : i; };
 
 const clean = (v: unknown): string | null => {
