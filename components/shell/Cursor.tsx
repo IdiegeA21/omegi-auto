@@ -1,71 +1,57 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { gsap, isFinePointer, prefersReducedMotion } from "@/lib/motion/gsap";
-import { dur } from "@/lib/tokens";
+import { WheelMark } from "@/components/brand/Logo";
+import { brand } from "@/config/brand";
 
-/** Desktop-only. Never mounts on touch or reduced motion. Dot follows tightly, ring trails. */
+/** A small wheel that trails the pointer and spins with horizontal movement. Desktop fine pointers only. Native cursor stays visible. */
 export default function Cursor() {
+  const root = useRef<HTMLDivElement>(null);
+  const spin = useRef<HTMLDivElement>(null);
   const [on, setOn] = useState(false);
-  const dot = useRef<HTMLDivElement>(null);
-  const ring = useRef<HTMLDivElement>(null);
-  const label = useRef<HTMLSpanElement>(null);
 
-  useEffect(() => { if (isFinePointer() && !prefersReducedMotion()) setOn(true); }, []);
+  useEffect(() => { setOn(brand.features.cursor && isFinePointer() && !prefersReducedMotion()); }, []);
 
   useEffect(() => {
     if (!on) return;
-    document.body.classList.add("has-cursor");
-    const d = dot.current!, r = ring.current!;
-    gsap.set([d, r], { xPercent: 0, opacity: 0 });
-    const dx = gsap.quickTo(d, "x", { duration: 0.12, ease: "power3.out" });
-    const dy = gsap.quickTo(d, "y", { duration: 0.12, ease: "power3.out" });
-    const rx = gsap.quickTo(r, "x", { duration: 0.45, ease: "power3.out" });
-    const ry = gsap.quickTo(r, "y", { duration: 0.45, ease: "power3.out" });
-    let shown = false;
+    const el = root.current, sp = spin.current;
+    if (!el || !sp) return;
+    const promote = () => { try { el.hidePopover(); el.showPopover(); } catch {} };
+    promote();
+    gsap.set(el, { xPercent: -50, yPercent: -50, x: -100, y: -100 });
+    const xTo = gsap.quickTo(el, "x", { duration: 0.4, ease: "power3" });
+    const yTo = gsap.quickTo(el, "y", { duration: 0.4, ease: "power3" });
+    const rTo = gsap.quickTo(sp, "rotation", { duration: 0.6, ease: "power3" });
+    let rot = 0, lastX = 0, seen = false, hot = false;
     const move = (e: PointerEvent) => {
-      if (!shown) { shown = true; gsap.set([d, r], { x: e.clientX, y: e.clientY }); gsap.to([d, r], { opacity: 1, duration: dur.fast }); }
-      dx(e.clientX); dy(e.clientY); rx(e.clientX); ry(e.clientY);
+      if (!seen) { seen = true; gsap.set(el, { x: e.clientX, y: e.clientY }); gsap.to(el, { opacity: 1, duration: 0.3 }); lastX = e.clientX; }
+      xTo(e.clientX); yTo(e.clientY);
+      rot += (e.clientX - lastX) * 0.9; lastX = e.clientX; rTo(rot);
     };
     const over = (e: PointerEvent) => {
-      const t = (e.target as Element).closest?.("a,button,[data-cursor]") as HTMLElement | null;
-      const text = t?.dataset.cursorLabel ?? "";
-      if (label.current) label.current.textContent = text;
-      gsap.to(r, { scale: t ? (text ? 2 : 1.6) : 1, backgroundColor: t && text ? "rgba(200,16,46,1)" : t ? "rgba(200,16,46,.12)" : "rgba(200,16,46,0)", duration: dur.fast, overwrite: "auto" });
-      if (label.current) gsap.to(label.current, { opacity: text ? 1 : 0, duration: dur.fast });
+      const t = (e.target as Element | null)?.closest?.("a, button, [data-cursor], input, select, textarea, summary, label");
+      const next = !!t;
+      if (next !== hot) { hot = next; el.classList.toggle("is-hot", next); gsap.to(el, { scale: next ? 1.7 : 1, duration: 0.35, ease: "power3.out", overwrite: "auto" }); }
     };
-    const leave = () => gsap.to([d, r], { opacity: 0, duration: dur.fast });
-    const enter = () => { if (shown) gsap.to([d, r], { opacity: 1, duration: dur.fast }); };
+    const leave = () => gsap.to(el, { opacity: 0, duration: 0.2 });
     window.addEventListener("pointermove", move, { passive: true });
-    document.addEventListener("pointerover", over, { passive: true });
+    window.addEventListener("pointerover", over, { passive: true });
     document.documentElement.addEventListener("pointerleave", leave);
-    document.documentElement.addEventListener("pointerenter", enter);
-    return () => {
-      document.body.classList.remove("has-cursor");
-      window.removeEventListener("pointermove", move);
-      document.removeEventListener("pointerover", over);
-      document.documentElement.removeEventListener("pointerleave", leave);
-      document.documentElement.removeEventListener("pointerenter", enter);
-      gsap.killTweensOf([d, r]);
-    };
-  }, [on]);
-
-  // The contact modal is a native <dialog>, which lives in the browser's top layer and paints above any z-index.
-  // The cursor therefore joins the top layer too (popover), and is re-promoted each time a dialog opens
-  // (a later top-layer entry sits above an earlier one), so the pointer is never hidden behind a modal.
-  useEffect(() => {
-    if (!on) return;
-    const els = [ring.current, dot.current] as (HTMLElement | null)[];
-    const promote = () => els.forEach((el) => { if (!el || !("showPopover" in el)) return; try { if (el.matches(":popover-open")) el.hidePopover(); el.showPopover(); } catch {} });
-    promote();
     window.addEventListener("omegi:toplayer", promote);
-    return () => { window.removeEventListener("omegi:toplayer", promote); els.forEach((el) => { try { el?.hidePopover?.(); } catch {} }); };
+    return () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerover", over);
+      document.documentElement.removeEventListener("pointerleave", leave);
+      window.removeEventListener("omegi:toplayer", promote);
+      gsap.killTweensOf([el, sp]);
+      try { el.hidePopover(); } catch {}
+    };
   }, [on]);
 
   if (!on) return null;
   return (
-    <div aria-hidden="true">
-      <div ref={ring} popover="manual" className="cursor-ring"><span ref={label} /></div>
-      <div ref={dot} popover="manual" className="cursor-dot" />
+    <div ref={root} popover="manual" className="cursor" aria-hidden="true">
+      <div ref={spin} className="h-full w-full"><WheelMark className="h-full w-full" /></div>
     </div>
   );
 }

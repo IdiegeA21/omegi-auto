@@ -1,0 +1,11 @@
+type P = { className?: string };
+const base = { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true, focusable: false };
+export const IconChat = ({ className = "h-5 w-5" }: P) => (<svg {...base} className={className}><path d="M20.5 11.6a8.4 8.4 0 0 1-12.4 7.4L3.5 20.5l1.5-4.4A8.4 8.4 0 1 1 20.5 11.6Z" /><path d="M9 9.2c.2 2.6 2.4 5 5.6 5.8l1.2-1.4-1.9-1-.9.7c-.9-.4-1.7-1.2-2.1-2.1l.7-.9-1-1.9L9 9.2Z" /></svg>);
+export const IconCar = ({ className = "h-5 w-5" }: P) => (<svg {...base} className={className}><path d="M3 15.5V13l2-5.2A2 2 0 0 1 6.9 6.5h10.2A2 2 0 0 1 19 7.8l2 5.2v2.5" /><path d="M3 13h18v4.5H3z" /><circle cx="7.5" cy="17.5" r="1.6" /><circle cx="16.5" cy="17.5" r="1.6" /></svg>);
+export const IconPercent = ({ className = "h-5 w-5" }: P) => (<svg {...base} className={className}><path d="M19 5 5 19" /><circle cx="7" cy="7" r="2.2" /><circle cx="17" cy="17" r="2.2" /></svg>);
+export const IconMenu = ({ className = "h-5 w-5" }: P) => (<svg {...base} className={className}><path d="M4 8h16M4 16h10" /></svg>);
+export const IconClose = ({ className = "h-5 w-5" }: P) => (<svg {...base} className={className}><path d="M6 6l12 12M18 6 6 18" /></svg>);
+export const IconHeart = ({ className = "h-5 w-5" }: P) => (<svg {...base} className={className}><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z" /></svg>);
+export const IconCheck = ({ className = "h-4 w-4" }: P) => (<svg {...base} className={className}><path d="m5 12.5 4.2 4.2L19 7" /></svg>);
+export const IconArrow = ({ className = "h-4 w-4" }: P) => (<svg {...base} className={className}><path d="M5 12h14M13 6l6 6-6 6" /></svg>);
+export const IconInstagram = ({ className = "h-5 w-5" }: P) => (<svg {...base} className={className}><rect x="3.5" y="3.5" width="17" height="17" rx="5" /><circle cx="12" cy="12" r="3.8" /><circle cx="17.3" cy="6.7" r=".6" fill="currentColor" /></svg>);

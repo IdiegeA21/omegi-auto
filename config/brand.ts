@@ -32,13 +32,14 @@ export const brand = {
   tagline: "Nigeria's Trusted Car Loan Dealership", // their Instagram bio line
   signOff: "Making car ownership easier.", // their caption sign-off
   conceptLabel: "Concept preview",
+  defaultMessage: "Hello Omegi Autos, I'd like to know more about your cars.",
 
   logo: {
-    // Supplied as a 600x600 JPEG on black. Needs a vector or high-res original.
-    source: "/brand/omegi-logo-source.jpg",
-    mark: null as string | null, // wheel + silhouette, transparent SVG (to come)
-    wordmark: null as string | null, // transparent SVG (to come)
-    alt: "Omegi Autos logo",
+    // Traced to vector from the supplied 600x600 JPEG (kept in docs/source, not shipped).
+    light: "/brand/omegi-logo.svg", // for light surfaces: near-black ink, Omegi Red
+    dark: "/brand/omegi-logo-on-dark.svg", // for dark surfaces: white ink, Campaign Red
+    ratio: 600 / 272, // width / height of the lockup
+    alt: "Omegi Autos",
   },
 
   // ---- Colour tokens (sampled from the logo file and the Nov 2025 ad) -------
@@ -69,19 +70,28 @@ export const brand = {
   // ---- Type ----------------------------------------------------------------
   // Proposed. Confirmed in Stage 1 after checking the naira sign (U+20A6)
   // renders in the chosen face; a system fallback is wired for that glyph.
+  // One variable family (Archivo, width + weight axes): ultra-condensed heavy for display, normal width for text.
+  // The naira sign is drawn as an SVG glyph (components/ui/Money.tsx) because the font's Latin subset omits U+20A6.
   fonts: {
-    display: { family: "Archivo", axes: "wdth 62-125, wght 100-900", use: "headlines, figures, state of the deal" },
-    body: { family: "Archivo", axes: "wdth 100", use: "UI and reading text" },
-    fallbackPairing: { display: "Barlow Condensed", body: "Figtree" },
-    nairaFallback: "system-ui, 'Segoe UI', Roboto, sans-serif",
+    family: "Archivo",
+    cssVar: "--font-archivo",
+    display: { wdth: 62, wght: 800 },
+    figure: { wdth: 75, wght: 800 },
+    body: { wdth: 100, wght: 450 },
   },
 
   // ---- Contacts ------------------------------------------------------------
   contacts: {
-    whatsapp: "", // PRIMARY route, digits only. Set once here, used everywhere.
-    callNumber: "", // shown on tap-to-call, if different from WhatsApp
+    whatsapp: "2349031543638", // PRIMARY route, digits only. Set once here, used everywhere.
+    callNumber: "2349031543638", // tap-to-call
+    phoneDisplay: "0903 154 3638",
     email: "",
-    instagram: { handle: "omegiautos", url: "https://instagram.com/omegiautos", dm: "https://ig.me/m/omegiautos" },
+    instagram: {
+      handle: "omegiautos",
+      url: "https://instagram.com/omegiautos",
+      dm: "https://ig.me/m/omegiautos",
+      followers: "106K", // read from the public profile screenshot; refresh before any real launch
+    },
     // Other platforms appear as icons on their ad. Handles unverified, so not linked.
     tiktok: null as string | null,
     facebook: null as string | null,
@@ -90,7 +100,7 @@ export const brand = {
     // to choose from. Consolidating to one primary route is a Stage 3 feature.
     seenOnPosts: [
       { raw: "0913 688 8000", seenOn: "Nov 2025 'Pay 40%' ad caption" },
-      { raw: "0903 154 3638", seenOn: "'Pay 40%' ad graphic, most car captions" },
+      { raw: "0903 154 3638", seenOn: "'Pay 40%' ad graphic, most car captions (CHOSEN as primary)" },
       { raw: "+234 813 168 7040", seenOn: "G63, Audi Q8, Macan captions" },
       { raw: "+234 901 584 8876", seenOn: "Rolls-Royce captions" },
     ],
@@ -108,7 +118,7 @@ export const brand = {
   },
   hours: null as string | null, // not supplied. Never assumed.
 
-  registration: { label: "BN", number: "3418505", show: false }, // in their bio. Owner to confirm display.
+  registration: { label: "BN", number: "3418505", statement: "Registered business name", show: true }, // from their bio; shown in the footer
 
   // ---- Services (from their bio: Buy, Car Loan, Pre-Order, Sell, Swap, Nationwide Delivery)
   services: [
@@ -175,7 +185,7 @@ export const brand = {
     instagramStrip: true,
     soldWall: true,
     preOrderTracker: true, // always labelled "Sample flow"
-    showFollowerCount: false, // stale-prone. Off by default.
+    showFollowerCount: true, // 106K from their public profile screenshot
   },
 
   // ---- Site / SEO ----------------------------------------------------------

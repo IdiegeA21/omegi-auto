@@ -1,11 +1,20 @@
 # Omegi Autos: details and images still needed
 
-## From the owner
-- Primary WhatsApp number (one number, used everywhere).
-- Showroom address and map pin, if a showroom should be shown.
-- Opening hours, if they should be shown.
-- Whether the business-name registration number may appear on the site.
-- Real answers for: interest rate, inspection, approval time.
-- Whether "1 to 4 years" balance term applies to every car.
-- A vector or high-resolution logo (the current file is a 600 x 600 JPEG).
-- Photos for each car listed in `data/cars.json`.
+## Done
+- Primary number: 0903 154 3638 (WhatsApp and call). Set once in `config/brand.ts`.
+- Logo traced to vector from the supplied JPEG (`public/brand/*.svg`, `components/brand/logoParts.ts`).
+- Business-name registration (BN 3418505) shown in the footer.
+- Instagram followers shown as 106K (from the profile screenshot).
+
+## Needed from the owner
+- A vector or high-resolution original of the logo (the traced version is faithful but not the designer's file).
+- Photos for each featured car (see the 14 chosen plus the two sold). Instagram screenshots are low resolution.
+- Showroom address and map pin, if a showroom should be shown. Opening hours, if they should be shown.
+- Real answers for the FAQ: interest rate, inspection, approval time.
+- Whether "1 to 4 years" balance term applies to every car (held back until confirmed).
+- Whether "Flexible repayment" and "Fast approval" may be shown (held back until confirmed).
+- Permission to show the sold-car customers (currently initials only: Mr F, Mr A) and their handover photos.
+- Which cars have installment financing open (set `installment` per car in `data/cars.json`).
+
+## Placeholders in use
+- Social image, app icon and favicon are generated from the traced logo; the social image uses a system font and should be re-rendered in the brand font before launch.

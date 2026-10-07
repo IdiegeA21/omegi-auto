@@ -7,9 +7,10 @@ export const ease = {
   soft: "power3.out",     // --ease-soft   cubic-bezier(.33,1,.68,1)
 } as const;
 
-export const dur = { fast: 0.3, base: 0.6, slow: 1.1, wipe: 0.9 } as const;
+/** Durations in seconds. Nothing in the shell is slower than `slow`. */
+export const dur = { fast: 0.3, base: 0.6, slow: 1.1, wipe: 0.55 } as const;
 
-/** Read-through to config/brand.ts so older call sites keep working. Do not add data here. */
+/** Read-through to config/brand.ts. Do not add data here. */
 export const site = {
   name: brand.name,
   whatsapp: brand.contacts.whatsapp,
