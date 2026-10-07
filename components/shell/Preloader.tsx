@@ -39,8 +39,8 @@ export default function Preloader() {
     let ctx: gsap.Context | null = null;
 
     // Wait for the CSS intro (not the long failsafe animation) to finish, then play the exit.
-    const intro = el.getAnimations({ subtree: true }).filter((a) => (a as CSSAnimation).animationName !== "pl-failsafe");
-    Promise.all(intro.map((a) => a.finished.catch(() => undefined))).then(() => {
+    const intro = el.getAnimations({ subtree: true }).filter((a: Animation) => (a as CSSAnimation).animationName !== "pl-failsafe");
+    Promise.all(intro.map((a: Animation) => a.finished.catch(() => undefined))).then(() => {
       if (cancelled) return;
       if (prefersReducedMotion()) {
         gsap.to(el, { opacity: 0, duration: 0.4, delay: 0.4, onComplete: () => { el.style.display = "none"; finish(); } });
