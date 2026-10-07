@@ -64,7 +64,7 @@ function Sheet({ payload, onClose }: { payload: Payload; onClose: () => void }) 
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 id="contact-h" className="font-display text-[clamp(1.6rem,6vw,2.3rem)] leading-[1.05]">{payload.heading ?? "How would you like to reach us?"}</h2>
-            <p className="mt-2 text-sm text-ash-700">Pick a channel. Your message is ready to go.</p>
+            <p className="mt-2 text-sm text-onLightMuted">Pick a channel. Your message is ready to go.</p>
           </div>
           <button type="button" onClick={onClose} aria-label="Close" className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white/80 text-2xl leading-none transition-transform duration-300 active:scale-90">×</button>
         </div>
@@ -79,7 +79,7 @@ function Sheet({ payload, onClose }: { payload: Payload; onClose: () => void }) 
           ) : (
             <div className="chan border border-ink-900/10 bg-white/50" aria-disabled="true">
               <span className="chan__ico bg-ink-900/10 text-ink-900"><WaIcon /></span>
-              <span className="flex-1"><span className="block text-base font-medium">WhatsApp</span><span className="block text-sm text-ash-700">Coming soon</span></span>
+              <span className="flex-1"><span className="block text-base font-medium">WhatsApp</span><span className="block text-sm text-onLightMuted">Coming soon</span></span>
             </div>
           )}
           <button type="button" className={`chan btn ${hasWhatsApp ? "btn-ink" : "btn-red"}`} onClick={instagram}>
@@ -88,7 +88,7 @@ function Sheet({ payload, onClose }: { payload: Payload; onClose: () => void }) 
             <span aria-hidden="true">↗</span>
           </button>
         </div>
-        <p role="status" aria-live="polite" className={`text-sm text-ash-700 ${note ? "mt-3" : ""}`}>{note}</p>
+        <p role="status" aria-live="polite" className={`text-sm text-onLightMuted ${note ? "mt-3" : ""}`}>{note}</p>
 
         <div className="mt-4 rounded-2xl bg-white/70 p-4">
           <div className="flex items-center justify-between gap-3">
@@ -97,7 +97,7 @@ function Sheet({ payload, onClose }: { payload: Payload; onClose: () => void }) 
           </div>
           {editing
             ? <textarea aria-labelledby="msg-label" value={text} onChange={(e) => setText(e.target.value)} rows={5} className="input mt-2 resize-y" autoFocus />
-            : <p className="mt-1 line-clamp-4 whitespace-pre-line text-sm text-ash-700">{text}</p>}
+            : <p className="mt-1 line-clamp-4 whitespace-pre-line text-sm text-onLightMuted">{text}</p>}
         </div>
       </div>
     </dialog>
