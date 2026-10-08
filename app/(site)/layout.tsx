@@ -1,3 +1,4 @@
+import { CarSilhouetteDefs } from "@/components/brand/CarSilhouette";
 import Cursor from "@/components/shell/Cursor";
 import Dock from "@/components/shell/Dock";
 import Footer from "@/components/shell/Footer";
@@ -11,6 +12,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
   return (
     <TransitionProvider>
       <MenuProvider>
+        <CarSilhouetteDefs />
         <SmoothScroll />
         <Cursor />
         <a href="#main" className="skip">Skip to content</a>

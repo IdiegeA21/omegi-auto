@@ -1,6 +1,7 @@
 # Omegi Autos: details and images still needed
 
 ## Done
+- Stage 2: 16 cars in `data/cars.json`, Home, Inventory and Car Detail.
 - Primary number: 0903 154 3638 (WhatsApp and call). Set once in `config/brand.ts`.
 - Logo traced to vector from the supplied JPEG (`public/brand/*.svg`, `components/brand/logoParts.ts`).
 - Business-name registration (BN 3418505) shown in the footer.
@@ -8,7 +9,7 @@
 
 ## Needed from the owner
 - A vector or high-resolution original of the logo (the traced version is faithful but not the designer's file).
-- Photos for each featured car (see the 14 chosen plus the two sold). Instagram screenshots are low resolution.
+- Photos for each car (paths listed in `docs/DATA.md`). Only the BMW has one, and it is a 475 px Instagram frame, so it looks soft on large screens.
 - Showroom address and map pin, if a showroom should be shown. Opening hours, if they should be shown.
 - Real answers for the FAQ: interest rate, inspection, approval time.
 - Whether "1 to 4 years" balance term applies to every car (held back until confirmed).

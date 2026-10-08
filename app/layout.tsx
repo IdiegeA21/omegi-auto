@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Archivo } from "next/font/google";
 import "./globals.css";
 import "./preloader.css";
+import "./deposit.css";
 import { brand } from "@/config/brand";
 import { themeCss } from "@/lib/theme";
 

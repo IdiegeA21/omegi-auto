@@ -12,7 +12,7 @@ const FIG: Record<Size, string> = { sm: "text-[1.65rem]", md: "text-[2.4rem]", l
  *  - Outright cars show a plain PRICE in ink. No tag, no bar.
  * Missing figures show a neutral placeholder, never a guess.
  */
-export default function PaymentBlock({ payment, size = "md", className = "" }: { payment?: PaymentInput; size?: Size; className?: string }) {
+export default function PaymentBlock({ payment, size = "md", className = "", hideTag = false }: { payment?: PaymentInput; size?: Size; className?: string; hideTag?: boolean }) {
   const v = resolvePayment(payment);
   const unknown = brand.finance.unknownPrice;
 
@@ -20,10 +20,12 @@ export default function PaymentBlock({ payment, size = "md", className = "" }: {
     const ratio = v.downRatio;
     return (
       <div className={className}>
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-omegi px-2.5 py-1 text-[11px] font-bold leading-none text-white">
-          <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-white" /> Installment option
-        </span>
-        <p className="mt-3 text-[13px] font-semibold text-mute">
+        {!hideTag && (
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-omegi px-2.5 py-1 text-[11px] font-bold leading-none text-white">
+            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-white" /> Installment option
+          </span>
+        )}
+        <p className={`${hideTag ? "" : "mt-3 "}text-[13px] font-semibold text-mute`}>
           Down payment{v.downPayment.basis === "rule" ? ` (${brand.finance.downPaymentPercent}%)` : ""}
         </p>
         <p className={`t-fig text-omegi ${FIG[size]}`}><Money amount={v.downPayment.amount} /></p>

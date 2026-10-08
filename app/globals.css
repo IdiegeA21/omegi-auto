@@ -95,3 +95,15 @@ html.js.rv-failsafe .rv .rv-i { transform: none !important; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
   html.js .rv:not(.is-in) .rv-i { transform: none; }
 }
+
+/* ---------- Scroll rise + card entrance ---------- */
+html.js [data-rise]:not([data-in]) { opacity: 0; transform: translateY(28px); }
+html.js.rv-failsafe [data-rise] { opacity: 1 !important; transform: none !important; }
+.card-in { animation: card-in .6s var(--ease-out) both; }
+@keyframes card-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { html.js [data-rise]:not([data-in]) { opacity: 1; transform: none; } }
+
+/* Hero: first slide's text starts hidden (before hydration) so the intro doesn't flash */
+html.js [data-hero-intro]:not([data-in]) [data-h] { opacity: 0; transform: translateY(34px); }
+html.js.rv-failsafe [data-hero-intro] [data-h] { opacity: 1 !important; transform: none !important; }
+@media (prefers-reduced-motion: reduce) { html.js [data-hero-intro]:not([data-in]) [data-h] { opacity: 1; transform: none; } }

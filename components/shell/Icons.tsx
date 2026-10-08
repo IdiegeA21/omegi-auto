@@ -5,7 +5,12 @@ export const IconCar = ({ className = "h-5 w-5" }: P) => (<svg {...base} classNa
 export const IconPercent = ({ className = "h-5 w-5" }: P) => (<svg {...base} className={className}><path d="M19 5 5 19" /><circle cx="7" cy="7" r="2.2" /><circle cx="17" cy="17" r="2.2" /></svg>);
 export const IconMenu = ({ className = "h-5 w-5" }: P) => (<svg {...base} className={className}><path d="M4 8h16M4 16h10" /></svg>);
 export const IconClose = ({ className = "h-5 w-5" }: P) => (<svg {...base} className={className}><path d="M6 6l12 12M18 6 6 18" /></svg>);
-export const IconHeart = ({ className = "h-5 w-5" }: P) => (<svg {...base} className={className}><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z" /></svg>);
+export const IconHeart = ({ className = "h-5 w-5", filled = false }: P & { filled?: boolean }) => (<svg {...base} fill={filled ? "currentColor" : "none"} className={className}><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z" /></svg>);
 export const IconCheck = ({ className = "h-4 w-4" }: P) => (<svg {...base} className={className}><path d="m5 12.5 4.2 4.2L19 7" /></svg>);
 export const IconArrow = ({ className = "h-4 w-4" }: P) => (<svg {...base} className={className}><path d="M5 12h14M13 6l6 6-6 6" /></svg>);
 export const IconInstagram = ({ className = "h-5 w-5" }: P) => (<svg {...base} className={className}><rect x="3.5" y="3.5" width="17" height="17" rx="5" /><circle cx="12" cy="12" r="3.8" /><circle cx="17.3" cy="6.7" r=".6" fill="currentColor" /></svg>);
+export const IconSearch = ({ className = "h-5 w-5" }: P) => (<svg {...base} className={className}><circle cx="11" cy="11" r="6.5" /><path d="m20 20-4.2-4.2" /></svg>);
+export const IconSliders = ({ className = "h-5 w-5" }: P) => (<svg {...base} className={className}><path d="M4 7h9M17 7h3M4 17h3M11 17h9" /><circle cx="15" cy="7" r="2" /><circle cx="9" cy="17" r="2" /></svg>);
+export const IconPlay = ({ className = "h-4 w-4" }: P) => (<svg {...base} fill="currentColor" className={className}><path d="M8 5.5v13l11-6.5-11-6.5Z" /></svg>);
+export const IconPause = ({ className = "h-4 w-4" }: P) => (<svg {...base} fill="currentColor" stroke="none" className={className}><rect x="6.5" y="5" width="4" height="14" rx="1" /><rect x="13.5" y="5" width="4" height="14" rx="1" /></svg>);
+export const IconChevron = ({ className = "h-5 w-5", dir = "right" }: P & { dir?: "left" | "right" }) => (<svg {...base} className={className} style={{ transform: dir === "left" ? "scaleX(-1)" : undefined }}><path d="m9 5 7 7-7 7" /></svg>);

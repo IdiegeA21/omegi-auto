@@ -1,1 +1,729 @@
-[]
+[
+  {
+    "id": "g63-2024",
+    "brand": "Mercedes-Benz",
+    "model": "AMG G63",
+    "year": 2024,
+    "bodyType": "SUV",
+    "categories": [
+      "Performance"
+    ],
+    "status": "available",
+    "featured": true,
+    "tags": [],
+    "condition": "Foreign used (US)",
+    "mileage": null,
+    "exterior": "White",
+    "interior": "Black and red two-tone",
+    "features": [
+      "Full option"
+    ],
+    "payment": {
+      "price": null,
+      "downPayment": null,
+      "downPaymentBy": null,
+      "installment": true,
+      "outright": true
+    },
+    "src": {
+      "post": 1,
+      "note": "Caption: 'DM for price'. Loan and swap stated."
+    },
+    "slug": "2024-mercedes-benz-amg-g63",
+    "media": {
+      "hero": null,
+      "width": null,
+      "height": null,
+      "gallery": []
+    },
+    "location": null,
+    "inferred": {
+      "bodyType": true,
+      "categories": true,
+      "brandModel": false
+    },
+    "handover": null
+  },
+  {
+    "id": "g63-2022",
+    "brand": "Mercedes-Benz",
+    "model": "AMG G63",
+    "year": 2022,
+    "bodyType": "SUV",
+    "categories": [
+      "Performance"
+    ],
+    "status": "available",
+    "featured": false,
+    "tags": [],
+    "condition": null,
+    "mileage": null,
+    "exterior": null,
+    "interior": "Two-tone",
+    "features": [],
+    "payment": {
+      "price": 268000000,
+      "downPayment": null,
+      "downPaymentBy": null,
+      "installment": true,
+      "outright": true
+    },
+    "src": {
+      "post": 13,
+      "note": "Caption states a full price of 268 million naira. Down payment follows the 40% rule."
+    },
+    "slug": "2022-mercedes-benz-amg-g63",
+    "media": {
+      "hero": null,
+      "width": null,
+      "height": null,
+      "gallery": []
+    },
+    "location": null,
+    "inferred": {
+      "bodyType": true,
+      "categories": true,
+      "brandModel": false
+    },
+    "handover": null
+  },
+  {
+    "id": "gle63s-2022",
+    "brand": "Mercedes-Benz",
+    "model": "GLE63 S",
+    "year": 2022,
+    "bodyType": "SUV",
+    "categories": [
+      "Performance"
+    ],
+    "status": "available",
+    "featured": true,
+    "tags": [],
+    "condition": "Foreign used (US)",
+    "mileage": null,
+    "exterior": null,
+    "interior": null,
+    "features": [],
+    "payment": {
+      "price": null,
+      "downPayment": 66000000,
+      "downPaymentBy": "caption",
+      "installment": true,
+      "outright": true
+    },
+    "src": {
+      "post": 8,
+      "note": "Caption: 66 million naira down payment. Loan stated."
+    },
+    "slug": "2022-mercedes-benz-gle63-s",
+    "media": {
+      "hero": null,
+      "width": null,
+      "height": null,
+      "gallery": []
+    },
+    "location": null,
+    "inferred": {
+      "bodyType": true,
+      "categories": true,
+      "brandModel": false
+    },
+    "handover": null
+  },
+  {
+    "id": "gle53-2022",
+    "brand": "Mercedes-Benz",
+    "model": "GLE53",
+    "year": 2022,
+    "bodyType": "SUV",
+    "categories": [
+      "Performance"
+    ],
+    "status": "available",
+    "featured": false,
+    "tags": [],
+    "condition": null,
+    "mileage": null,
+    "exterior": null,
+    "interior": null,
+    "features": [],
+    "payment": {
+      "price": null,
+      "downPayment": 50000000,
+      "downPaymentBy": "caption",
+      "installment": true,
+      "outright": true
+    },
+    "src": {
+      "post": 4,
+      "note": "Caption: 50 million naira down payment. Loan stated."
+    },
+    "slug": "2022-mercedes-benz-gle53",
+    "media": {
+      "hero": null,
+      "width": null,
+      "height": null,
+      "gallery": []
+    },
+    "location": null,
+    "inferred": {
+      "bodyType": true,
+      "categories": true,
+      "brandModel": false
+    },
+    "handover": null
+  },
+  {
+    "id": "gle350-2020",
+    "brand": "Mercedes-Benz",
+    "model": "GLE350",
+    "year": 2020,
+    "bodyType": "SUV",
+    "categories": [
+      "Luxury"
+    ],
+    "status": "available",
+    "featured": false,
+    "tags": [
+      "New arrival"
+    ],
+    "condition": null,
+    "mileage": null,
+    "exterior": null,
+    "interior": null,
+    "features": [],
+    "payment": {
+      "price": null,
+      "downPayment": 20400000,
+      "downPaymentBy": "caption",
+      "installment": true,
+      "outright": true
+    },
+    "src": {
+      "post": 5,
+      "note": "Caption: 20.4 million naira down payment. 'New arrival'. Loan stated."
+    },
+    "slug": "2020-mercedes-benz-gle350",
+    "media": {
+      "hero": null,
+      "width": null,
+      "height": null,
+      "gallery": []
+    },
+    "location": null,
+    "inferred": {
+      "bodyType": true,
+      "categories": true,
+      "brandModel": false
+    },
+    "handover": null
+  },
+  {
+    "id": "glc63s-2020",
+    "brand": "Mercedes-Benz",
+    "model": "AMG GLC63 S",
+    "year": 2020,
+    "bodyType": "SUV",
+    "categories": [
+      "Performance"
+    ],
+    "status": "available",
+    "featured": false,
+    "tags": [],
+    "condition": "Foreign used (US)",
+    "mileage": null,
+    "exterior": null,
+    "interior": null,
+    "features": [
+      "V8 biturbo engine",
+      "Carbon fiber engine display",
+      "Quad exhaust"
+    ],
+    "payment": {
+      "price": null,
+      "downPayment": null,
+      "downPaymentBy": null,
+      "installment": false,
+      "outright": true
+    },
+    "src": {
+      "post": 10,
+      "note": "Caption: 'DM for price'. Financing not mentioned, so not marked."
+    },
+    "slug": "2020-mercedes-benz-amg-glc63-s",
+    "media": {
+      "hero": null,
+      "width": null,
+      "height": null,
+      "gallery": []
+    },
+    "location": null,
+    "inferred": {
+      "bodyType": true,
+      "categories": true,
+      "brandModel": false
+    },
+    "handover": null
+  },
+  {
+    "id": "lx600-2022",
+    "brand": "Lexus",
+    "model": "LX600",
+    "year": 2022,
+    "bodyType": "SUV",
+    "categories": [
+      "Luxury"
+    ],
+    "status": "available",
+    "featured": true,
+    "tags": [],
+    "condition": null,
+    "mileage": null,
+    "exterior": null,
+    "interior": null,
+    "features": [],
+    "payment": {
+      "price": null,
+      "downPayment": 88000000,
+      "downPaymentBy": "caption",
+      "installment": true,
+      "outright": true
+    },
+    "src": {
+      "post": 6,
+      "note": "Caption: 88 million naira down payment. Loan stated."
+    },
+    "slug": "2022-lexus-lx600",
+    "media": {
+      "hero": null,
+      "width": null,
+      "height": null,
+      "gallery": []
+    },
+    "location": null,
+    "inferred": {
+      "bodyType": true,
+      "categories": true,
+      "brandModel": false
+    },
+    "handover": null
+  },
+  {
+    "id": "rx350-2017",
+    "brand": "Lexus",
+    "model": "RX350 Luxury Edition",
+    "year": 2017,
+    "bodyType": "SUV",
+    "categories": [
+      "Luxury"
+    ],
+    "status": "available",
+    "featured": false,
+    "tags": [],
+    "condition": null,
+    "mileage": null,
+    "exterior": null,
+    "interior": null,
+    "features": [
+      "LED headlights",
+      "Thumbstart",
+      "Collision prevention assist",
+      "Reverse camera"
+    ],
+    "payment": {
+      "price": null,
+      "downPayment": 11000000,
+      "downPaymentBy": "caption",
+      "installment": true,
+      "outright": true
+    },
+    "src": {
+      "post": 11,
+      "note": "Caption: 11 million naira down payment. Installment inferred from down-payment pricing."
+    },
+    "slug": "2017-lexus-rx350-luxury-edition",
+    "media": {
+      "hero": null,
+      "width": null,
+      "height": null,
+      "gallery": []
+    },
+    "location": null,
+    "inferred": {
+      "bodyType": true,
+      "categories": true,
+      "brandModel": false
+    },
+    "handover": null
+  },
+  {
+    "id": "tx350",
+    "brand": "Lexus",
+    "model": "TX350",
+    "year": null,
+    "bodyType": "SUV",
+    "categories": [
+      "Luxury"
+    ],
+    "status": "available",
+    "featured": false,
+    "tags": [],
+    "condition": null,
+    "mileage": null,
+    "exterior": null,
+    "interior": null,
+    "features": [
+      "Pristine"
+    ],
+    "payment": {
+      "price": null,
+      "downPayment": 58000000,
+      "downPaymentBy": "caption",
+      "installment": true,
+      "outright": true
+    },
+    "src": {
+      "post": 12,
+      "note": "Caption: 58 million naira down payment; inspection and purchase at the showroom. Year not stated. Installment inferred from down-payment pricing."
+    },
+    "slug": "lexus-tx350",
+    "media": {
+      "hero": null,
+      "width": null,
+      "height": null,
+      "gallery": []
+    },
+    "location": null,
+    "inferred": {
+      "bodyType": true,
+      "categories": true,
+      "brandModel": false
+    },
+    "handover": null
+  },
+  {
+    "id": "audi-q8-2020",
+    "brand": "Audi",
+    "model": "Q8",
+    "year": 2020,
+    "bodyType": "SUV",
+    "categories": [
+      "Luxury"
+    ],
+    "status": "available",
+    "featured": true,
+    "tags": [],
+    "condition": "Foreign used (US)",
+    "mileage": null,
+    "exterior": "Gray",
+    "interior": "Black",
+    "features": [
+      "Full option"
+    ],
+    "payment": {
+      "price": null,
+      "downPayment": null,
+      "downPaymentBy": null,
+      "installment": true,
+      "outright": true
+    },
+    "src": {
+      "post": 17,
+      "note": "Caption: 'DM for price'. Loan and swap stated."
+    },
+    "slug": "2020-audi-q8",
+    "media": {
+      "hero": null,
+      "width": null,
+      "height": null,
+      "gallery": []
+    },
+    "location": null,
+    "inferred": {
+      "bodyType": true,
+      "categories": true,
+      "brandModel": false
+    },
+    "handover": null
+  },
+  {
+    "id": "macan-turbo-2015",
+    "brand": "Porsche",
+    "model": "Macan Turbo",
+    "year": 2015,
+    "bodyType": "SUV",
+    "categories": [
+      "Performance"
+    ],
+    "status": "available",
+    "featured": false,
+    "tags": [],
+    "condition": "Foreign used (US)",
+    "mileage": null,
+    "exterior": "Gray",
+    "interior": "Red",
+    "features": [
+      "Full option"
+    ],
+    "payment": {
+      "price": null,
+      "downPayment": null,
+      "downPaymentBy": null,
+      "installment": true,
+      "outright": true
+    },
+    "src": {
+      "post": 18,
+      "note": "Caption: 'DM for price'. Loan and swap stated."
+    },
+    "slug": "2015-porsche-macan-turbo",
+    "media": {
+      "hero": null,
+      "width": null,
+      "height": null,
+      "gallery": []
+    },
+    "location": null,
+    "inferred": {
+      "bodyType": true,
+      "categories": true,
+      "brandModel": false
+    },
+    "handover": null
+  },
+  {
+    "id": "velar-p250s",
+    "brand": "Range Rover",
+    "model": "Velar P250 S",
+    "year": null,
+    "bodyType": "SUV",
+    "categories": [
+      "Luxury"
+    ],
+    "status": "available",
+    "featured": false,
+    "tags": [],
+    "condition": null,
+    "mileage": "27K miles",
+    "exterior": null,
+    "interior": null,
+    "features": [
+      "Ambient light",
+      "Panoramic roof",
+      "360 cameras"
+    ],
+    "payment": {
+      "price": null,
+      "downPayment": null,
+      "downPaymentBy": null,
+      "installment": false,
+      "outright": true
+    },
+    "src": {
+      "post": 14,
+      "note": "Caption: 'DM for price'. Year not stated. Financing not mentioned, so not marked."
+    },
+    "slug": "range-rover-velar-p250-s",
+    "media": {
+      "hero": null,
+      "width": null,
+      "height": null,
+      "gallery": []
+    },
+    "location": null,
+    "inferred": {
+      "bodyType": true,
+      "categories": true,
+      "brandModel": false
+    },
+    "handover": null
+  },
+  {
+    "id": "cullinan-2024",
+    "brand": "Rolls-Royce",
+    "model": "Cullinan",
+    "year": 2024,
+    "bodyType": "SUV",
+    "categories": [
+      "Ultra-luxury"
+    ],
+    "status": "available",
+    "featured": true,
+    "tags": [],
+    "condition": null,
+    "mileage": null,
+    "exterior": null,
+    "interior": null,
+    "features": [
+      "Illuminated front grille",
+      "Adaptive air suspension (self-leveling and kneeling)",
+      "360-degree camera",
+      "Rear coach doors",
+      "Split tailgate with Viewing Suite",
+      "18-speaker premium sound system",
+      "Advanced driver assistance systems"
+    ],
+    "payment": {
+      "price": null,
+      "downPayment": null,
+      "downPaymentBy": null,
+      "installment": true,
+      "outright": true
+    },
+    "src": {
+      "post": 16,
+      "note": "Caption: no price. Loan and swap stated."
+    },
+    "slug": "2024-rolls-royce-cullinan",
+    "media": {
+      "hero": null,
+      "width": null,
+      "height": null,
+      "gallery": []
+    },
+    "location": null,
+    "inferred": {
+      "bodyType": true,
+      "categories": true,
+      "brandModel": false
+    },
+    "handover": null
+  },
+  {
+    "id": "bmw-x6",
+    "brand": "BMW",
+    "model": "X6",
+    "year": null,
+    "bodyType": "SUV",
+    "categories": [
+      "Luxury"
+    ],
+    "status": "available",
+    "featured": true,
+    "tags": [],
+    "condition": null,
+    "mileage": null,
+    "exterior": null,
+    "interior": null,
+    "features": [
+      "Carbon front lip"
+    ],
+    "payment": {
+      "price": null,
+      "downPayment": null,
+      "downPaymentBy": null,
+      "installment": false,
+      "outright": true
+    },
+    "src": {
+      "post": 0,
+      "note": "Identified from a photo, not a caption: model and body shape inferred, year unknown. Owner to confirm."
+    },
+    "slug": "bmw-x6",
+    "media": {
+      "hero": "/cars/bmw-x6/hero.webp",
+      "width": 475,
+      "height": 826,
+      "gallery": []
+    },
+    "location": null,
+    "inferred": {
+      "bodyType": true,
+      "categories": true,
+      "brandModel": true
+    },
+    "handover": null
+  },
+  {
+    "id": "gle43-2019-sold",
+    "brand": "Mercedes-Benz",
+    "model": "AMG GLE43",
+    "year": 2019,
+    "bodyType": "SUV",
+    "categories": [
+      "Performance"
+    ],
+    "status": "sold",
+    "featured": false,
+    "tags": [],
+    "condition": null,
+    "mileage": null,
+    "exterior": null,
+    "interior": null,
+    "features": [],
+    "payment": {
+      "price": null,
+      "downPayment": null,
+      "downPaymentBy": null,
+      "installment": true,
+      "outright": true
+    },
+    "handover": {
+      "customer": "Mr F",
+      "note": "Paid 40% upfront and financed the balance (their post)."
+    },
+    "src": {
+      "post": 2,
+      "note": "Handover post."
+    },
+    "slug": "2019-mercedes-benz-amg-gle43-sold",
+    "media": {
+      "hero": null,
+      "width": null,
+      "height": null,
+      "gallery": []
+    },
+    "location": null,
+    "inferred": {
+      "bodyType": true,
+      "categories": true,
+      "brandModel": false
+    }
+  },
+  {
+    "id": "gle350-2021-sold",
+    "brand": "Mercedes-Benz",
+    "model": "GLE350",
+    "year": 2021,
+    "bodyType": "SUV",
+    "categories": [
+      "Luxury"
+    ],
+    "status": "sold",
+    "featured": false,
+    "tags": [],
+    "condition": null,
+    "mileage": null,
+    "exterior": null,
+    "interior": null,
+    "features": [],
+    "payment": {
+      "price": null,
+      "downPayment": null,
+      "downPaymentBy": null,
+      "installment": true,
+      "outright": true
+    },
+    "handover": {
+      "customer": "Mr A",
+      "note": "Delivered (their post)."
+    },
+    "src": {
+      "post": 3,
+      "note": "Handover post."
+    },
+    "slug": "2021-mercedes-benz-gle350-sold",
+    "media": {
+      "hero": null,
+      "width": null,
+      "height": null,
+      "gallery": []
+    },
+    "location": null,
+    "inferred": {
+      "bodyType": true,
+      "categories": true,
+      "brandModel": false
+    }
+  }
+]
