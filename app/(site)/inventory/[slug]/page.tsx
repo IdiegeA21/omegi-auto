@@ -7,13 +7,13 @@ import SaveButton from "@/components/car/SaveButton";
 import StatusBadge from "@/components/car/StatusBadge";
 import { IconArrow, IconChat } from "@/components/shell/Icons";
 import { TransitionLink } from "@/components/shell/Transition";
-import WhatsAppLink from "@/components/shell/WhatsAppLink";
+import EnquiryButton from "@/components/shell/EnquiryButton";
+import { carEnquiry } from "@/lib/enquiryRequests";
 import Money from "@/components/ui/Money";
 import Reveal from "@/components/ui/Reveal";
 import { brand } from "@/config/brand";
 import { carTitle, getCar, getCars, getPublicCars, relatedCars } from "@/lib/cars";
 import { balanceOf, resolvePayment } from "@/lib/payment";
-import { enquiryText } from "@/lib/whatsapp";
 
 export const dynamicParams = false;
 export const generateStaticParams = () => getCars().map((c) => ({ slug: c.slug }));
@@ -70,7 +70,7 @@ export default async function CarPage({ params }: { params: Promise<{ slug: stri
               <div className="mt-8 rounded-3xl bg-paper p-6">
                 <p className="text-lg font-bold">This car has been sold.</p>
                 {car.handover && <p className="mt-1 text-[15px] text-mute">Handed over to {car.handover.customer}. {car.handover.note}</p>}
-                <WhatsAppLink text={`Hello ${brand.name}, I'm looking for a car like the ${title}.`} className="btn btn-red mt-5"><IconChat /> Ask for a similar car</WhatsAppLink>
+                <EnquiryButton request={carEnquiry(car)} className="btn btn-red mt-5"><IconChat /> Ask for a similar car</EnquiryButton>
               </div>
             ) : (
               <>
@@ -89,7 +89,7 @@ export default async function CarPage({ params }: { params: Promise<{ slug: stri
                 )}
 
                 <div className="mt-6 grid gap-3">
-                  <WhatsAppLink text={enquiryText(title)} className="btn btn-red w-full"><IconChat /> Chat about this car</WhatsAppLink>
+                  <EnquiryButton request={carEnquiry(car)} className="btn btn-red w-full"><IconChat /> Chat about this car</EnquiryButton>
                   <div className="grid gap-3 sm:grid-cols-2">
                     <SaveButton car={car} withLabel className="w-full" />
                     <TransitionLink href="/swap" className="btn btn-line w-full">Swap your car <IconArrow /></TransitionLink>

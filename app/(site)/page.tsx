@@ -3,8 +3,10 @@ import FeaturedCars from "@/components/home/FeaturedCars";
 import DownPaymentBrowser from "@/components/home/DownPaymentBrowser";
 import PayFortySection from "@/components/home/PayFortySection";
 import ServicesIndex from "@/components/home/ServicesIndex";
+import SoldWall from "@/components/home/SoldWall";
+import InstagramStrip from "@/components/home/InstagramStrip";
 import { heroSlideIds } from "@/config/ui";
-import { featuredCars, getPublicCars } from "@/lib/cars";
+import { featuredCars, getPublicCars, soldCars } from "@/lib/cars";
 
 export default function Home() {
   const all = getPublicCars();
@@ -17,6 +19,8 @@ export default function Home() {
       <DownPaymentBrowser cars={all} />
       <PayFortySection />
       <ServicesIndex />
+      <SoldWall cars={soldCars()} compact />
+      <InstagramStrip />
     </>
   );
 }

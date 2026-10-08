@@ -1,6 +1,7 @@
 "use client";
-import { useShortlist, toggleSaved } from "@/lib/shortlist";
-import { carTitle } from "@/lib/cars";
+import { useShortlist, toggleSaved, MAX_SHORTLIST } from "@/lib/shortlist";
+import { toast } from "@/lib/toast";
+import { carTitle } from "@/lib/carTitle";
 import type { PublicCar } from "@/types/car";
 import { IconHeart } from "@/components/shell/Icons";
 
@@ -10,7 +11,7 @@ export default function SaveButton({ car, className = "", withLabel = false }: {
   const saved = useShortlist().some((i) => i.id === car.id);
   return (
     <button type="button" aria-pressed={saved} aria-label={saved ? `Remove ${title} from shortlist` : `Save ${title} to shortlist`}
-      onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleSaved({ id: car.id, title, image: car.media.hero }); }}
+      onClick={(e) => { e.preventDefault(); e.stopPropagation(); const r = toggleSaved({ id: car.id, title, image: car.media.hero }); if (r === "full") toast(`Your shortlist is full. Remove a car to add another (up to ${MAX_SHORTLIST}).`); if (r === "added") toast("Saved. Open your shortlist to compare."); }}
       className={`${withLabel ? "btn btn-line" : "grid h-11 w-11 place-items-center rounded-full bg-showroom/95 text-tarmac shadow-sm hover:text-omegi"} ${saved ? "!text-omegi" : ""} ${className}`}>
       <IconHeart filled={saved} />
       {withLabel && <span>{saved ? "Saved to shortlist" : "Save to shortlist"}</span>}

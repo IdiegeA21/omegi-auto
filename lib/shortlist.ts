@@ -18,7 +18,15 @@ function commit(next: SavedCar[]) {
   try { localStorage.setItem(KEY, JSON.stringify(items)); } catch {}
   subs.forEach((f) => f());
 }
-export const toggleSaved = (car: SavedCar) => { load(); commit(items.some((i) => i.id === car.id) ? items.filter((i) => i.id !== car.id) : [...items, car]); };
+/** Up to three cars can be compared. */
+export const MAX_SHORTLIST = 3;
+export const toggleSaved = (car: SavedCar): "added" | "removed" | "full" => {
+  load();
+  if (items.some((i) => i.id === car.id)) { commit(items.filter((i) => i.id !== car.id)); return "removed"; }
+  if (items.length >= MAX_SHORTLIST) return "full";
+  commit([...items, car]);
+  return "added";
+};
 export const removeSaved = (id: string) => { load(); commit(items.filter((i) => i.id !== id)); };
 export const clearSaved = () => { load(); commit([]); };
 

@@ -1,0 +1,10 @@
+[
+  { "id": "interest", "q": "What's the interest rate?", "a": null, "note": "Owner to supply. Until then the site says: message us on WhatsApp." },
+  { "id": "upfront", "q": "How much do I pay upfront?", "a": "Our offer is to pay 40% and drive. Final terms are confirmed on WhatsApp.", "note": "From the Pay 40% ad." },
+  { "id": "which-cars", "q": "Which cars can I pay for in installments?", "a": "Cars with the red \"Installment option\" tag. Message us about any other car and we'll confirm.", "note": "Describes the site's own tag. Change a car's `installment` flag in cars.json." },
+  { "id": "inspection", "q": "Can I inspect the car before I pay?", "a": "Message us to arrange an inspection.", "note": "Captions say to call or WhatsApp for inquiries and inspection." },
+  { "id": "swap", "q": "Can I swap my car?", "a": "Yes, car swap is available. Tell us your car and the one you want.", "note": "Captions: car swap available." },
+  { "id": "delivery", "q": "Do you deliver outside Lagos?", "a": "Yes, we offer nationwide delivery. Message us for delivery to your city.", "note": "Bio and captions: nationwide delivery." },
+  { "id": "approval", "q": "How long does approval take?", "a": null, "note": "Owner to supply." },
+  { "id": "term", "q": "How long can I spread the balance over?", "a": null, "note": "Two captions say 1 to 4 years. Held back until the owner confirms it applies to every car." }
+]

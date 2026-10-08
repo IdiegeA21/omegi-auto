@@ -107,3 +107,8 @@ html.js.rv-failsafe [data-rise] { opacity: 1 !important; transform: none !import
 html.js [data-hero-intro]:not([data-in]) [data-h] { opacity: 0; transform: translateY(34px); }
 html.js.rv-failsafe [data-hero-intro] [data-h] { opacity: 1 !important; transform: none !important; }
 @media (prefers-reduced-motion: reduce) { html.js [data-hero-intro]:not([data-in]) [data-h] { opacity: 1; transform: none; } }
+
+/* ---------- Toast ---------- */
+.toast-wrap { bottom: calc(var(--dock-h) + env(safe-area-inset-bottom, 0px) + 12px); }
+@media (min-width: 768px) { .toast-wrap { bottom: 1.5rem; } }
+.toast { animation: card-in .4s var(--ease-out) both; }

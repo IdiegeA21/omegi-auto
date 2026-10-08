@@ -27,3 +27,12 @@ One variable family, Archivo (weight 100-900, width 62-125). Display and figures
 
 ## Mobile shell
 Slim header (logo, shortlist). Bottom dock: Cars, Pay 40%, More, and the WhatsApp action. The page reserves the dock's height (`.site-pad`), so it never covers content; it slides away while a form field is focused.
+
+## Enquiry sheet (Stage 3)
+Every car and form action opens one sheet: an optional name, one-tap questions, an optional note, and a preview of the exact message. It opens WhatsApp on the single number in `config/brand.ts`. The header, dock, menu and footer keep a direct WhatsApp link for one-tap access. `/pay-40` uses a direct link too, so it needs no JavaScript.
+
+## Honesty rules in the UI
+- Unknown figures show "Ask for price"; nothing is guessed. A price is never derived from a down payment.
+- No monthly repayment appears unless an interest rate and tenor are set. Otherwise: "Final terms are confirmed on WhatsApp."
+- The pre-qualification form only collects details. No approval or decision language anywhere.
+- The pre-order tracker is labelled "Sample flow" and says it is not the business's real process.

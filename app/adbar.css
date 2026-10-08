@@ -1,0 +1,27 @@
+/* /pay-40 only. The Deposit Bar in pure CSS: no JavaScript, no GSAP. Transform and opacity only.
+   --pct comes from config (finance.downPaymentPercent / 100). The wheel travels --pct of the track width (cqw). */
+.abar { container-type: inline-size; position: relative; --wr: 22px; }
+@media (min-width: 768px) { .abar { --wr: 34px; } }
+.abar__rail { position: relative; height: calc(var(--wr) * 2); }
+.abar__track { position: absolute; left: 0; right: 0; top: 50%; height: 16px; margin-top: -8px; overflow: hidden; border-radius: 999px; border: 1px solid rgb(var(--c-rule)); background: rgb(var(--c-paper)); }
+.abar__fill { position: absolute; inset: 0; background: rgb(var(--c-omegi)); transform-origin: left center; transform: scaleX(0); animation: abar-fill 1.7s cubic-bezier(.76, 0, .24, 1) .35s forwards; }
+.abar__tick { position: absolute; left: calc(var(--pct) * 100%); top: 0; bottom: 0; width: 1px; background: rgb(var(--c-tarmac) / .35); }
+.abar__wheel { position: absolute; left: 0; top: 0; width: calc(var(--wr) * 2); height: calc(var(--wr) * 2); margin-left: calc(var(--wr) * -1); color: rgb(var(--c-tarmac)); animation: abar-roll 1.7s cubic-bezier(.76, 0, .24, 1) .35s forwards; }
+.abar__labels { position: relative; height: 3rem; margin-top: .5rem; font-size: 13px; font-weight: 650; color: rgb(var(--c-mute)); }
+.abar__labels > span { position: absolute; top: 0; white-space: nowrap; animation: ad-in .6s var(--ease-out) 1.75s both; }
+.abar__l0 { left: 0; color: rgb(var(--c-tarmac)); }
+.abar__l40 { left: calc(var(--pct) * 100%); transform: translateX(-50%); color: rgb(var(--c-omegi)); }
+.abar__l40 > b { font-weight: 800; }
+.abar__l100 { right: 0; }
+.abar__drive { display: flex; justify-content: flex-end; margin-bottom: .75rem; overflow: hidden; }
+.abar__drive > span { display: inline-block; color: rgb(var(--c-omegi)); animation: ad-up .8s var(--ease-out) 1.9s both; }
+@keyframes abar-fill { to { transform: scaleX(var(--pct)); } }
+@keyframes abar-roll { to { transform: translateX(calc(var(--pct) * 100cqw)) rotate(720deg); } }
+@keyframes ad-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes ad-up { from { opacity: 0; transform: translateY(105%); } to { opacity: 1; transform: none; } }
+.ad-rise > span { display: inline-block; animation: ad-up .9s var(--ease-out) both; animation-delay: calc(var(--i) * 70ms + 80ms); }
+@media (prefers-reduced-motion: reduce) {
+  .abar__fill { animation: none; transform: scaleX(var(--pct)); }
+  .abar__wheel { animation: none; transform: translateX(calc(var(--pct) * 100cqw)); }
+  .abar__labels > span, .abar__drive > span, .ad-rise > span { animation: none; }
+}

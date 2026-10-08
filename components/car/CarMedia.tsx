@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { CarSilhouette } from "@/components/brand/CarSilhouette";
-import { carTitle } from "@/lib/cars";
+import { carTitle } from "@/lib/carTitle";
 import type { PublicCar } from "@/types/car";
 
 const BLUR = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc4JyBoZWlnaHQ9JzUnPjxyZWN0IHdpZHRoPSc4JyBoZWlnaHQ9JzUnIGZpbGw9JyMxNjE2MTYnLz48L3N2Zz4=";

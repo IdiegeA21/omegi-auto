@@ -6,7 +6,8 @@
     "dev": "next dev -p 5000",
     "build": "next build",
     "start": "next start",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "assets:check": "node scripts/check-assets.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

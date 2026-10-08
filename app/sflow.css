@@ -1,0 +1,13 @@
+/* Sample-flow tracker geometry. Wheel and fill animate with transform only. */
+.sflow { position: relative; --wr: 20px; }
+.sflow__rail { position: absolute; top: 10px; left: calc(100% / 12); right: calc(100% / 12); height: 0; }
+.sflow__line { position: absolute; left: 0; right: 0; top: -1px; height: 2px; background: rgb(var(--c-rule)); }
+.sflow__fill { position: absolute; left: 0; right: 0; top: -1px; height: 2px; background: rgb(var(--c-omegi)); transform-origin: left center; }
+.sflow__wheel { position: absolute; left: 0; top: calc(var(--wr) * -1); width: calc(var(--wr) * 2); height: calc(var(--wr) * 2); margin-left: calc(var(--wr) * -1); color: rgb(var(--c-tarmac)); z-index: 2; }
+.sflow__nodes { position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); list-style: none; margin: 0; padding: 0; }
+.sflow__nodes li { display: flex; flex-direction: column; align-items: center; gap: .85rem; }
+.sflow__dot { width: 20px; height: 20px; border-radius: 999px; border: 2px solid rgb(var(--c-rule)); background: rgb(var(--c-showroom)); transition: border-color .4s, background-color .4s; }
+.sflow__nodes li[data-on="true"] .sflow__dot { border-color: rgb(var(--c-omegi)); background: rgb(var(--c-omegi)); }
+.sflow__label { font-size: clamp(10px, 2.85vw, 11px); letter-spacing: -.01em; white-space: nowrap; font-weight: 650; color: rgb(var(--c-mute)); text-align: center; line-height: 1.2; transition: color .4s; }
+.sflow__nodes li[data-on="true"] .sflow__label { color: rgb(var(--c-tarmac)); }
+@media (min-width: 768px) { .sflow { --wr: 26px; } .sflow__label { font-size: 14px; } }

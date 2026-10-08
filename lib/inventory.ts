@@ -1,5 +1,5 @@
 import { downBands } from "@/config/ui";
-import { carTitle } from "@/lib/cars";
+import { carTitle } from "@/lib/carTitle";
 import { resolvePayment } from "@/lib/payment";
 import type { PublicCar as Car } from "@/types/car";
 

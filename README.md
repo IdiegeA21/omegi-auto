@@ -2,12 +2,13 @@
 
 A concept website for Omegi Autos, a Lagos car-loan dealership. Next.js 15 (App Router), TypeScript, Tailwind 3, GSAP + ScrollTrigger, Lenis, next/image.
 
-**Status: Stage 2 (data and core pages).** Home, Inventory and Car Detail are built. The finance tools and business pages arrive in Stage 3.
+**Status: Stage 3 (features built around the business).** Pay 40% landing, estimator and pre-qualification, enquiry sheet, Car Finder, shortlist and compare, swap, sell, pre-order, delivery, sold wall, Instagram strip and FAQ are built. Stage 4 is polish, QA and handoff.
 
 ## Run it
 ```bash
 npm install
 npm run dev
+npm run assets:check   # which images are in place and which are still placeholders
 ```
 `npm install` also refreshes `package-lock.json` for the renamed package.
 

@@ -4,15 +4,15 @@ import CarMedia from "@/components/car/CarMedia";
 import PaymentBlock from "@/components/car/PaymentBlock";
 import { IconChat, IconChevron, IconPause, IconPlay } from "@/components/shell/Icons";
 import { TransitionLink } from "@/components/shell/Transition";
-import WhatsAppLink from "@/components/shell/WhatsAppLink";
+import EnquiryButton from "@/components/shell/EnquiryButton";
+import { carEnquiry } from "@/lib/enquiryRequests";
 import { brand } from "@/config/brand";
 import { heroSlideMs } from "@/config/ui";
-import { carTitle } from "@/lib/cars";
+import { carTitle } from "@/lib/carTitle";
 import { resolvePayment } from "@/lib/payment";
 import { gsap, prefersReducedMotion } from "@/lib/motion/gsap";
 import { gate } from "@/lib/motion/gate";
 import { ease } from "@/lib/tokens";
-import { enquiryText } from "@/lib/whatsapp";
 import type { PublicCar } from "@/types/car";
 
 /**
@@ -127,7 +127,7 @@ export default function Hero({ cars }: { cars: PublicCar[] }) {
                     ) : <PaymentBlock payment={car.payment} size="lg" />}
                   </div>
                   <div data-h className="mt-8 flex flex-wrap gap-3">
-                    <WhatsAppLink text={enquiryText(title)} className="btn btn-red"><IconChat /> Chat about this car</WhatsAppLink>
+                    <EnquiryButton request={carEnquiry(car)} className="btn btn-red"><IconChat /> Chat about this car</EnquiryButton>
                     <TransitionLink href={`/inventory/${car.slug}`} className="btn btn-line">View car</TransitionLink>
                   </div>
                 </div>

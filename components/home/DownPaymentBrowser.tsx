@@ -3,7 +3,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import CarCard from "@/components/car/CarCard";
 import { IconArrow, IconChat } from "@/components/shell/Icons";
 import { TransitionLink } from "@/components/shell/Transition";
-import WhatsAppLink from "@/components/shell/WhatsAppLink";
+import EnquiryButton from "@/components/shell/EnquiryButton";
+import { generalEnquiry } from "@/lib/enquiryRequests";
 import Reveal from "@/components/ui/Reveal";
 import { downBands } from "@/config/ui";
 import { inBand } from "@/lib/inventory";
@@ -49,7 +50,7 @@ export default function DownPaymentBrowser({ cars }: { cars: PublicCar[] }) {
 
         <div className="mt-10 flex flex-wrap items-center gap-3">
           <TransitionLink href={`/inventory?band=${band}`} className="btn btn-ink">See all in this range <IconArrow /></TransitionLink>
-          <WhatsAppLink className="btn btn-line"><IconChat /> Ask about other cars</WhatsAppLink>
+          <EnquiryButton request={generalEnquiry("I'd like to know about other cars.")} className="btn btn-line"><IconChat /> Ask about other cars</EnquiryButton>
         </div>
         <p className="mt-6 max-w-[60ch] text-[13px] text-mute">Cars shown here have a down payment in their listing or a stated price. For the rest, message us.</p>
       </div>

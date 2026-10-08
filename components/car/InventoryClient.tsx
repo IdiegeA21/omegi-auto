@@ -3,7 +3,8 @@ import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import CarCard from "@/components/car/CarCard";
 import { IconChat, IconClose, IconSearch, IconSliders } from "@/components/shell/Icons";
-import WhatsAppLink from "@/components/shell/WhatsAppLink";
+import EnquiryButton from "@/components/shell/EnquiryButton";
+import { generalEnquiry } from "@/lib/enquiryRequests";
 import { downBands, inventoryPageSize } from "@/config/ui";
 import { applyFilters, defaultFilters, facets, filtersToParams, paramsToFilters, type Filters, type SortKey } from "@/lib/inventory";
 import type { PublicCar } from "@/types/car";
@@ -100,7 +101,7 @@ export default function InventoryClient({ cars }: { cars: PublicCar[] }) {
           <p className="mt-3 max-w-[44ch] text-mute">Loosen a filter, or message us the car you want and we&apos;ll look for it.</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <button type="button" onClick={() => setF(defaultFilters)} className="btn btn-line">Clear filters</button>
-            <WhatsAppLink className="btn btn-red"><IconChat /> Message us</WhatsAppLink>
+            <EnquiryButton request={generalEnquiry("I'm looking for a car I couldn't find on the site.")} className="btn btn-red"><IconChat /> Message us</EnquiryButton>
           </div>
         </div>
       ) : (

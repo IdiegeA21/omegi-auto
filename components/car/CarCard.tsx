@@ -1,4 +1,4 @@
-import { carTitle } from "@/lib/cars";
+import { carTitle } from "@/lib/carTitle";
 import { TransitionLink } from "@/components/shell/Transition";
 import type { PublicCar } from "@/types/car";
 import CarMedia from "./CarMedia";

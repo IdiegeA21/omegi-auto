@@ -167,16 +167,6 @@ export const brand = {
     needsFromOwner: "Story, founding year, team, showroom details.",
   },
 
-  // `answer: null` renders "Message us on WhatsApp and we'll confirm."
-  faq: [
-    { q: "What is the interest rate?", a: null as string | null },
-    { q: "How much do I pay upfront?", a: "Our offer is 40% down. You pay that and drive. Final terms are confirmed on WhatsApp." },
-    { q: "Can I inspect the car before paying?", a: null },
-    { q: "Do you accept car swaps?", a: "Yes. Car swap is available. Message us your car's details and the car you want." },
-    { q: "Do you deliver outside Lagos?", a: "Yes. Nationwide delivery is available. Message us for delivery to your city." },
-    { q: "How long does approval take?", a: null },
-  ],
-
   // ---- Feature flags -------------------------------------------------------
   features: {
     preloader: true,

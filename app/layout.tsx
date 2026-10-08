@@ -3,6 +3,8 @@ import { Archivo } from "next/font/google";
 import "./globals.css";
 import "./preloader.css";
 import "./deposit.css";
+import "./sflow.css";
+import "./adbar.css";
 import { brand } from "@/config/brand";
 import { themeCss } from "@/lib/theme";
 

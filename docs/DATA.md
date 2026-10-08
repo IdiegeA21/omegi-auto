@@ -1,3 +1,7 @@
+# Data files
+
+`data/cars.json` (cars), `data/faq.json` (FAQ), `data/instagram.json` (Instagram tiles). Image placement is in `docs/ASSETS.md`.
+
 # Car data (`data/cars.json`)
 
 16 cars: 14 in stock and 2 sold (handovers). One entry per car. Edit this file to change anything about a car; no code changes needed.

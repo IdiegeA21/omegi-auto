@@ -1,6 +1,7 @@
 import { IconArrow, IconChat } from "@/components/shell/Icons";
 import { TransitionLink } from "@/components/shell/Transition";
-import WhatsAppLink from "@/components/shell/WhatsAppLink";
+import EnquiryButton from "@/components/shell/EnquiryButton";
+import { generalEnquiry } from "@/lib/enquiryRequests";
 import Reveal from "@/components/ui/Reveal";
 import { brand } from "@/config/brand";
 import DepositBar from "./DepositBar";
@@ -30,7 +31,7 @@ export default function PayFortySection() {
         </ol>
 
         <div className="mt-12 flex flex-wrap gap-3">
-          <WhatsAppLink className="btn btn-red"><IconChat /> Start on WhatsApp</WhatsAppLink>
+          <EnquiryButton request={generalEnquiry("I'd like to pay 40% and drive. Please tell me how to start.")} className="btn btn-red"><IconChat /> Start on WhatsApp</EnquiryButton>
           <TransitionLink href="/pay-40" className="btn btn-line">How it works <IconArrow /></TransitionLink>
         </div>
       </div>
