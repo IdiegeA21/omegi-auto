@@ -6,7 +6,9 @@ import "./deposit.css";
 import "./sflow.css";
 import "./adbar.css";
 import { brand } from "@/config/brand";
-import { themeCss } from "@/lib/theme";
+import { themeCss } from "@/lib/theme"; 
+
+//just a note: the font is not used in the body, but it is used in the header and footer, so we need to load it here. The body uses the system font stack.
 
 // One variable file: weight 100-900 plus the width axis (62-125), so headlines are condensed and text is normal width.
 const archivo = Archivo({ subsets: ["latin"], axes: ["wdth"], display: "swap", variable: "--font-archivo" });
