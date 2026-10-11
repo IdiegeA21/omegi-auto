@@ -11,3 +11,15 @@
 .sflow__label { font-size: clamp(10px, 2.85vw, 11px); letter-spacing: -.01em; white-space: nowrap; font-weight: 650; color: rgb(var(--c-mute)); text-align: center; line-height: 1.2; transition: color .4s; }
 .sflow__nodes li[data-on="true"] .sflow__label { color: rgb(var(--c-tarmac)); }
 @media (min-width: 768px) { .sflow { --wr: 26px; } .sflow__label { font-size: 14px; } }
+
+/* ---------- Delivery route: Lagos to your city. The wheel rolls the whole way once a city is typed. ---------- */
+.route { position: relative; --wr: 22px; padding: var(--wr) var(--wr) 0; }
+.route__rail { position: relative; height: 0; }
+.route__line { position: absolute; left: 0; right: 0; top: -1px; height: 2px; background: repeating-linear-gradient(90deg, rgb(var(--c-tarmac) / .35) 0 8px, transparent 8px 16px); }
+.route__node { position: absolute; top: -8px; width: 16px; height: 16px; border-radius: 999px; border: 2px solid rgb(var(--c-tarmac)); background: rgb(var(--c-showroom)); }
+.route__node--a { left: -8px; }
+.route__node--b { right: -8px; }
+.route__wheel { position: absolute; left: 0; top: calc(var(--wr) * -1); width: calc(var(--wr) * 2); height: calc(var(--wr) * 2); margin-left: calc(var(--wr) * -1); color: rgb(var(--c-omegi)); z-index: 2; }
+.route__labels { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1.6rem; font-weight: 800; font-variation-settings: "wdth" 62; text-transform: uppercase; font-size: clamp(1.6rem, 5vw, 3rem); line-height: 1; }
+.route__labels > span:last-child { text-align: right; overflow-wrap: anywhere; }
+@media (min-width: 768px) { .route { --wr: 30px; } }

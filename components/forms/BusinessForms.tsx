@@ -3,6 +3,8 @@ import { Field, FormShell, SelectField, TextArea } from "@/components/forms/Fiel
 import { useEnquiry } from "@/components/shell/EnquirySheet";
 import { carTitle } from "@/lib/carTitle";
 import { collect } from "@/lib/forms";
+import { buildMessage, type EnquiryRequest } from "@/lib/enquiry";
+import { enquiryChannel } from "@/lib/whatsapp";
 import type { PublicCar } from "@/types/car";
 
 const CONDITIONS = ["Foreign used", "Nigerian used", "Not sure"];
@@ -10,7 +12,7 @@ const carOptions = (cars: PublicCar[]) => cars.filter((c) => c.status === "avail
 
 /** Swap: customer's current car and the car they want. No valuation, no price promise. */
 export function SwapForm({ cars }: { cars: PublicCar[] }) {
-  const { open } = useEnquiry();
+  const open = useEnquiry()?.open ?? ((r: EnquiryRequest) => { window.open(enquiryChannel(buildMessage(r)).href, "_blank", "noopener"); });
   return (
     <FormShell submit="Review and send" onSubmit={(f) => open({
       kind: "swap", title: "Swap request", intro: "I'd like to swap my car.",
@@ -29,7 +31,7 @@ export function SwapForm({ cars }: { cars: PublicCar[] }) {
 
 /** Sell: tell us about the car. No valuation, no price promise. */
 export function SellForm() {
-  const { open } = useEnquiry();
+  const open = useEnquiry()?.open ?? ((r: EnquiryRequest) => { window.open(enquiryChannel(buildMessage(r)).href, "_blank", "noopener"); });
   return (
     <FormShell submit="Review and send" onSubmit={(f) => open({
       kind: "sell", title: "Sell my car", intro: "I'd like to sell my car.",
@@ -46,7 +48,7 @@ export function SellForm() {
 
 /** Pre-order: request a car that is not in stock. */
 export function PreOrderForm() {
-  const { open } = useEnquiry();
+  const open = useEnquiry()?.open ?? ((r: EnquiryRequest) => { window.open(enquiryChannel(buildMessage(r)).href, "_blank", "noopener"); });
   return (
     <FormShell submit="Review and send" onSubmit={(f) => open({
       kind: "preorder", title: "Pre-order request", intro: "I'd like to request a car.",
@@ -62,7 +64,7 @@ export function PreOrderForm() {
 
 /** Delivery: where should it go? */
 export function DeliveryForm({ cars }: { cars: PublicCar[] }) {
-  const { open } = useEnquiry();
+  const open = useEnquiry()?.open ?? ((r: EnquiryRequest) => { window.open(enquiryChannel(buildMessage(r)).href, "_blank", "noopener"); });
   return (
     <FormShell submit="Message us for delivery" onSubmit={(f) => open({
       kind: "delivery", title: "Delivery to your city", intro: "I'd like delivery to my city.",

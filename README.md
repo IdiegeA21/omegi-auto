@@ -2,7 +2,7 @@
 
 A concept website for Omegi Autos, a Lagos car-loan dealership. Next.js 15 (App Router), TypeScript, Tailwind 3, GSAP + ScrollTrigger, Lenis, next/image.
 
-**Status: Stage 3 (features built around the business).** Pay 40% landing, estimator and pre-qualification, enquiry sheet, Car Finder, shortlist and compare, swap, sell, pre-order, delivery, sold wall, Instagram strip and FAQ are built. Stage 4 is polish, QA and handoff.
+**Status: Stage 4 complete (polish, QA and handoff).** See `docs/HANDOFF.md` and `docs/QA.md`. Pay 40% landing, estimator and pre-qualification, enquiry sheet, Car Finder, shortlist and compare, swap, sell, pre-order, delivery, sold wall, Instagram strip and FAQ are built. Stage 4 is polish, QA and handoff.
 
 ## Run it
 ```bash
@@ -11,6 +11,9 @@ npm run dev
 npm run assets:check   # which images are in place and which are still placeholders
 ```
 `npm install` also refreshes `package-lock.json` for the renamed package.
+
+## Updating from an earlier version
+Extract into a **fresh folder** (a zip adds and overwrites files but never deletes the old ones). If you extract over an old folder anyway, `npm run dev` and `npm run build` first run `scripts/doctor.mjs`, which removes known leftovers from earlier stages (for example an old `app/page.tsx` that shows only the brand name) and tells you what it removed. Then run `npm install` once.
 
 ## Where things live
 | Path | What |

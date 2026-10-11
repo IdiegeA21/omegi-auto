@@ -1,9 +1,16 @@
 import type { Metadata } from "next";
-import { WheelMark } from "@/components/brand/Logo";
-import { IconChat } from "@/components/shell/Icons";
+import { WheelMark } from "@/components/brand/WheelMark";
+import { IconArrow, IconCheck, IconChat, IconInstagram } from "@/components/shell/Icons";
 import WhatsAppLink from "@/components/shell/WhatsAppLink";
+import Money from "@/components/ui/Money";
 import { brand } from "@/config/brand";
+import { carTitle } from "@/lib/carTitle";
+import { getPublicCars } from "@/lib/cars";
+import { buildMessage } from "@/lib/enquiry";
+import { carEnquiry } from "@/lib/enquiryRequests";
 import { faqFallback, getFaqs } from "@/lib/faq";
+import { resolvePayment } from "@/lib/payment";
+import { enquiryChannel } from "@/lib/whatsapp";
 
 export const metadata: Metadata = { title: "Pay 40% and drive", description: "Pay 40% and drive your dream car. Car loan dealership in Lagos." };
 
@@ -16,13 +23,18 @@ const steps = [
 
 /**
  * The page their paid ads point to. One message, one action (WhatsApp, a direct link so it works instantly),
- * minimal navigation, and no client JavaScript or GSAP: the bar animates in CSS.
+ * and no client JavaScript or GSAP: the bar animates in CSS. Below the fold it shows real down payments, trust
+ * details and answers, so a visitor can decide without leaving.
  */
 export default function Pay40() {
   const pct = brand.finance.downPaymentPercent;
   const headline = brand.offer.headline.split(" ");
-  const faqs = getFaqs().filter((f) => ["upfront", "interest", "which-cars"].includes(f.id));
+  const faqs = getFaqs().filter((f) => ["upfront", "interest", "which-cars", "term"].includes(f.id));
   const claims = brand.offer.claims.filter((c) => c.show);
+  const all = getPublicCars();
+  const start = all.filter((c) => c.status === "available").map((c) => ({ c, v: resolvePayment(c.payment) })).filter((x) => x.v.installment && x.v.downPayment).sort((a, b) => a.v.downPayment!.amount - b.v.downPayment!.amount);
+  const sold = all.filter((c) => c.status === "sold" && c.handover);
+  const reg = brand.registration, ig = brand.contacts.instagram;
   return (
     <>
       <section className="wrap pb-12 pt-10 md:pb-20 md:pt-16">
@@ -63,6 +75,44 @@ export default function Pay40() {
         </div>
       </section>
 
+      {start.length > 0 && (
+        <section className="wrap py-14 md:py-20">
+          <p className="t-eyebrow">Real down payments from our listings</p>
+          <h2 className="t-display t-d3 mt-3">Cars you can start with</h2>
+          <ul className="mt-8 border-t border-rule">
+            {start.map(({ c, v }) => (
+              <li key={c.id}>
+                <a href={enquiryChannel(buildMessage(carEnquiry(c))).href} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between gap-4 border-b border-rule py-5 transition-colors duration-300 hover:bg-paper md:px-4">
+                  <span className="min-w-0"><span className="block truncate text-[1.05rem] font-bold md:text-[1.25rem]">{carTitle(c)}</span><span className="text-[13px] text-mute">Down payment{v.downPayment!.basis === "rule" ? ` (${pct}%)` : ""}</span></span>
+                  <span className="flex items-center gap-4"><span className="t-fig text-[1.8rem] text-omegi md:text-[2.4rem]"><Money amount={v.downPayment!.amount} /></span><span className="hidden items-center gap-1.5 text-[13px] font-bold sm:inline-flex">Ask <IconArrow className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1" /></span></span>
+                  <span className="sr-only"> Ask about this car on WhatsApp (opens in a new tab)</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-4 text-[13px] text-mute">{brand.finance.termsNote} Cars without a listed figure: ask us.</p>
+        </section>
+      )}
+
+      <section className="on-dark bg-tarmac py-14 text-white md:py-20">
+        <div className="wrap grid gap-10 md:grid-cols-3">
+          <div>
+            <p className="t-eyebrow">Registered</p>
+            {reg.show ? <p className="mt-3 flex items-center gap-3 text-[1.3rem] font-bold"><span className="grid h-8 w-8 place-items-center rounded-full bg-campaign text-tarmac"><IconCheck className="h-4 w-4" /></span>{reg.statement}</p> : null}
+            {reg.show && <p className="t-fig mt-3 text-[2.6rem]">{reg.label} {reg.number}</p>}
+          </div>
+          <div>
+            <p className="t-eyebrow">On Instagram</p>
+            <a href={ig.url} target="_blank" rel="noopener noreferrer" className="u40 mt-3 inline-flex items-center gap-2 text-[1.3rem] font-bold"><IconInstagram />@{ig.handle}<span className="sr-only"> (opens in a new tab)</span></a>
+            {brand.features.showFollowerCount && <p className="t-fig mt-3 text-[2.6rem]">{ig.followers} <span className="text-[1rem] font-semibold text-mute-dark">followers</span></p>}
+          </div>
+          <div>
+            <p className="t-eyebrow">Recently handed over</p>
+            <ul className="mt-3 grid gap-2.5 text-[15px]">{sold.map((c) => <li key={c.id}><span className="font-bold">{carTitle(c)}</span> <span className="text-mute-dark">to {c.handover!.customer}</span></li>)}</ul>
+          </div>
+        </div>
+      </section>
+
       <section className="wrap py-14 md:py-20">
         <h2 className="t-display t-d3">Asked in the DMs</h2>
         <dl className="mt-6 max-w-[52rem] border-t border-rule">
@@ -70,7 +120,7 @@ export default function Pay40() {
         </dl>
         <div className="mt-10 flex flex-col items-start gap-4">
           <WhatsAppLink text={ASK} className="btn btn-red min-h-[56px] px-8 text-[1.05rem]"><IconChat /> Chat on WhatsApp</WhatsAppLink>
-          <a href="/inventory" className="u40 text-[14px] font-semibold text-mute">Or browse the cars</a>
+          <a href="/inventory" className="u40 text-[14px] font-semibold text-mute">Or browse all the cars</a>
         </div>
       </section>
     </>

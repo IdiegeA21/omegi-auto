@@ -38,9 +38,13 @@ export const footerNav = {
   company: [{ href: "/about", label: "About" }, { href: "/faq", label: "FAQ" }, { href: "/contact", label: "Contact" }, { href: "/privacy", label: "Privacy" }],
 };
 
-/** Every internal route the shell links to. Used by the stage placeholder so unbuilt pages don't 404 during review. */
-export const knownRoutes = new Set<string>([
-  ...primaryNav.map((n) => n.href),
-  ...menuGroups.flatMap((g) => g.items.map((i) => i.href)),
-  ...Object.values(footerNav).flat().map((i) => i.href),
-]);
+/** The name shown while the page transition covers the screen, so you always know where you are going. */
+export function routeLabel(href: string): string {
+  const path = href.split("?")[0].split("#")[0];
+  if (path === "/") return "Home";
+  const all = [...primaryNav, ...menuGroups.flatMap((g) => g.items), ...Object.values(footerNav).flat()];
+  const hit = all.find((i) => i.href === path);
+  if (hit) return hit.label;
+  if (path.startsWith("/inventory/")) return "Cars";
+  return "Omegi Autos";
+}

@@ -1,6 +1,7 @@
-import { CarSilhouetteDefs } from "@/components/brand/CarSilhouette";
+import { CarSilhouetteDefs } from "@/components/brand/CarSilhouetteDefs";
 import Cursor from "@/components/shell/Cursor";
 import { EnquiryProvider } from "@/components/shell/EnquirySheet";
+import { ShortlistProvider } from "@/components/shell/ShortlistDrawer";
 import Toaster from "@/components/shell/Toaster";
 import Dock from "@/components/shell/Dock";
 import Footer from "@/components/shell/Footer";
@@ -15,6 +16,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
     <TransitionProvider>
       <MenuProvider>
        <EnquiryProvider>
+       <ShortlistProvider>
         <CarSilhouetteDefs />
         <SmoothScroll />
         <Cursor />
@@ -28,6 +30,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
         </div>
         <Dock />
         <Toaster />
+       </ShortlistProvider>
        </EnquiryProvider>
       </MenuProvider>
     </TransitionProvider>

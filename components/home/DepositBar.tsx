@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { WheelMark } from "@/components/brand/Logo";
+import { WheelMark } from "@/components/brand/WheelMark";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/motion/gsap";
 import { ease } from "@/lib/tokens";
 import { brand } from "@/config/brand";
@@ -45,7 +45,7 @@ export default function DepositBar() {
   }, [pct]);
 
   return (
-    <div ref={root} className="dbar">
+    <div ref={root} className="dbar" style={{ ["--pct" as string]: pct }}>
       <div className="dbar__drive" aria-hidden="true"><span className="t-display t-d2">Drive.</span></div>
       <div className="dbar__rail">
         <div className="dbar__track"><div className="dbar__fill" /></div>

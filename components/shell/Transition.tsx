@@ -1,69 +1,99 @@
 "use client";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { createContext, useCallback, useContext, useEffect, useRef, type ComponentProps, type MouseEvent, type ReactNode } from "react";
-import { WheelMark } from "@/components/brand/Logo";
+import { useCallback, useEffect, useRef, type ReactNode } from "react";
+import { WheelMark } from "@/components/brand/WheelMark";
+import { routeLabel } from "@/config/nav";
 import { gsap, prefersReducedMotion } from "@/lib/motion/gsap";
 import { gate } from "@/lib/motion/gate";
-import { scrollToTop } from "@/lib/motion/scroll";
+import { lockScroll, scrollToTop, unlockScroll } from "@/lib/motion/scroll";
 import { ease } from "@/lib/tokens";
 
-const Ctx = createContext<(href: string) => void>(() => {});
-export const useGo = () => useContext(Ctx);
+import { TransitionCtx } from "./transitionContext";
 
+/** Seconds. Intro ≈ 1.1s, exit ≈ 0.9s: slow enough to read where you are going, short enough not to get in the way. */
+const T = { cover: 0.62, lag: 0.08, labelAt: 0.36, wheelAt: 0.4, exit: 0.8 };
 const frame = () => new Promise<void>((r) => requestAnimationFrame(() => r()));
 
 /**
- * Page transition: a red panel slides over the page while the wheel rolls across it, the route changes underneath,
- * then the panel leaves the other way. About 1.1s end to end. Reduced motion: plain navigation.
+ * The signature page transition: a drive-through.
+ *  1. A black panel then a red panel sweep across, always left to right, so the direction never reverses.
+ *  2. While you are covered, the destination's name rises ("Taking you to / Cars"), so you are never disoriented.
+ *  3. A wheel rolls along a rail. Its spin is computed from the distance it travels (it rolls, it doesn't slide),
+ *     pausing at the halfway mark while the new page arrives.
+ *  4. The panels drive on off the right edge and the new page's own entrances play as the screen clears.
+ * Transform and opacity only. Reduced motion: plain navigation. Never traps the user: a timeout guarantees the exit.
  */
 export function TransitionProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const panel = useRef<HTMLDivElement>(null);
+  const root = useRef<HTMLDivElement>(null);
+  const a = useRef<HTMLDivElement>(null);
+  const b = useRef<HTMLDivElement>(null);
+  const kicker = useRef<HTMLParagraphElement>(null);
+  const label = useRef<HTMLParagraphElement>(null);
+  const rail = useRef<HTMLDivElement>(null);
   const wheel = useRef<HTMLDivElement>(null);
   const busy = useRef(false);
   const waiters = useRef<Array<() => void>>([]);
 
   useEffect(() => { waiters.current.splice(0).forEach((f: () => void) => f()); }, [pathname]);
-  useEffect(() => () => { gsap.killTweensOf([panel.current, wheel.current]); }, []);
+  useEffect(() => () => { gsap.killTweensOf([a.current, b.current, kicker.current, label.current, rail.current, wheel.current]); }, []);
 
   const go = useCallback((href: string) => {
     if (busy.current) return;
     const target = new URL(href, window.location.href);
     if (target.pathname === window.location.pathname && target.search === window.location.search) { scrollToTop(false); return; }
-    const p = panel.current, w = wheel.current;
-    if (!p || !w || prefersReducedMotion()) { router.push(href); return; }
+    const r = root.current, pa = a.current, pb = b.current, kk = kicker.current, lb = label.current, rl = rail.current, wh = wheel.current;
+    if (!r || !pa || !pb || !kk || !lb || !rl || !wh || prefersReducedMotion()) { router.push(href); return; }
 
     busy.current = true;
     gate.close();
-    p.style.pointerEvents = "auto";
+    lockScroll();
+    lb.textContent = routeLabel(href);
+    r.setAttribute("data-on", "");
+    gsap.set([pa, pb], { xPercent: -101 });
+    gsap.set([kk, lb], { opacity: 0, y: 44 });
+    gsap.set(rl, { opacity: 0 });
+    gsap.set(wh, { x: 0, rotation: 0, opacity: 1 });
+    const railW = rl.offsetWidth, R = wh.offsetWidth / 2;
+    const roll = (frac: number) => ({ x: railW * frac, rotation: ((railW * frac) / R) * (180 / Math.PI) });
 
-    const cover = () => new Promise<void>((res) => {
+    let arrived: Promise<void> = Promise.resolve();
+    const intro = () => new Promise<void>((res) => {
       gsap.timeline({ onComplete: res })
-        .fromTo(p, { xPercent: 100 }, { xPercent: 0, duration: 0.55, ease: ease.inOut })
-        .fromTo(w, { x: "32vw", rotation: 0 }, { x: 0, rotation: -360, duration: 0.55, ease: ease.inOut }, 0);
+        .to(pa, { xPercent: 0, duration: T.cover, ease: "power3.inOut" }, 0)
+        .to(pb, { xPercent: 0, duration: T.cover, ease: "power3.inOut" }, T.lag)
+        .add(() => {
+          // fully covered: now it is safe to swap the route underneath
+          arrived = new Promise<void>((done) => { waiters.current.push(done); window.setTimeout(done, 3000); });
+          router.push(href);
+        }, T.cover + T.lag)
+        .to([kk, lb], { opacity: 1, y: 0, duration: 0.7, ease: ease.out, stagger: 0.07 }, T.labelAt)
+        .to(rl, { opacity: 1, duration: 0.4 }, T.labelAt + 0.05)
+        .to(wh, { ...roll(0.5), duration: 0.55, ease: "power2.out" }, T.wheelAt);
     });
-    const reveal = () => new Promise<void>((res) => {
+    const exit = () => new Promise<void>((res) => {
       gsap.timeline({ onComplete: res })
-        .to(p, { xPercent: -100, duration: 0.55, ease: ease.inOut })
-        .to(w, { x: "-32vw", rotation: -720, duration: 0.55, ease: ease.inOut }, 0)
-        .add(() => gate.open(), 0.2);
+        .to([kk, lb], { opacity: 0, y: -28, duration: 0.35, ease: "power2.in", stagger: 0.04 }, 0)
+        .to(wh, { ...roll(1), duration: 0.85, ease: "power2.inOut" }, 0)
+        .to(pb, { xPercent: 101, duration: T.exit, ease: "power3.inOut" }, 0.08)
+        .to(pa, { xPercent: 101, duration: T.exit, ease: "power3.inOut" }, 0.08 + T.lag)
+        .to([rl, wh], { opacity: 0, duration: 0.25 }, 0.62)
+        .add(() => gate.open(), 0.4);
     });
 
     (async () => {
       try {
-        await cover();
-        const arrived = new Promise<void>((res) => { waiters.current.push(res); window.setTimeout(res, 2500); });
-        router.push(href);
+        await intro();
         await arrived;
         scrollToTop(true);
         await frame();
-        await reveal();
+        await exit();
       } finally {
-        gsap.set(p, { xPercent: 100 });
-        gsap.set(w, { clearProps: "transform" });
-        p.style.pointerEvents = "none";
+        gsap.set([pa, pb], { xPercent: -101 });
+        gsap.set([kk, lb, rl, wh], { clearProps: "all" });
+        r.removeAttribute("data-on");
+        unlockScroll();
         gate.open();
         busy.current = false;
       }
@@ -71,25 +101,18 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
   }, [router]);
 
   return (
-    <Ctx.Provider value={go}>
+    <TransitionCtx.Provider value={go}>
       {children}
-      <div ref={panel} className="tr-panel" aria-hidden="true">
-        <div ref={wheel} className="w-[min(34vw,180px)]"><WheelMark className="h-auto w-full" /></div>
+      <div ref={root} className="tr" aria-hidden="true">
+        <div ref={a} className="tr__a" />
+        <div ref={b} className="tr__b">
+          <div className="tr__stage">
+            <p ref={kicker} className="tr__kicker">Taking you to</p>
+            <p ref={label} className="tr__label t-display" />
+          </div>
+        </div>
+        <div ref={rail} className="tr__rail"><div className="tr__line" /><div ref={wheel} className="tr__wheel"><WheelMark className="h-full w-full" /></div></div>
       </div>
-    </Ctx.Provider>
+    </TransitionCtx.Provider>
   );
-}
-
-/** next/link that plays the page transition for plain internal clicks. Everything else behaves like a normal link. */
-export function TransitionLink({ href, onClick, ...rest }: Omit<ComponentProps<typeof Link>, "href"> & { href: string }) {
-  const go = useGo();
-  const handle = (e: MouseEvent<HTMLAnchorElement>) => {
-    onClick?.(e);
-    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    if (!href.startsWith("/") || href.startsWith("/#")) return;
-    if (rest.target && rest.target !== "_self") return;
-    e.preventDefault();
-    go(href);
-  };
-  return <Link href={href} onClick={handle} {...rest} />;
 }

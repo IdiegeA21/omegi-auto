@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import CarCard from "@/components/car/CarCard";
 import CarMedia from "@/components/car/CarMedia";
+import CrossLinks from "@/components/car/CrossLinks";
 import PaymentBlock from "@/components/car/PaymentBlock";
+import PaymentOptions from "@/components/car/PaymentOptions";
 import SaveButton from "@/components/car/SaveButton";
 import StatusBadge from "@/components/car/StatusBadge";
 import { IconArrow, IconChat } from "@/components/shell/Icons";
-import { TransitionLink } from "@/components/shell/Transition";
+import { TransitionLink } from "@/components/shell/TransitionLink";
 import EnquiryButton from "@/components/shell/EnquiryButton";
 import { carEnquiry } from "@/lib/enquiryRequests";
 import Money from "@/components/ui/Money";
@@ -51,6 +53,7 @@ export default async function CarPage({ params }: { params: Promise<{ slug: stri
           <div className="overflow-hidden rounded-[1.75rem]">
             <CarMedia car={car} priority sizes="(min-width:1024px) 58vw, 94vw" ratio="aspect-[4/3]" zoom={false} />
           </div>
+          {!sold && <PaymentOptions car={car} />}
           {car.features.length > 0 && (
             <div className="mt-10">
               <h2 className="t-eyebrow">Highlights</h2>
@@ -106,6 +109,8 @@ export default async function CarPage({ params }: { params: Promise<{ slug: stri
           </div>
         </div>
       </section>
+
+      <CrossLinks car={car} />
 
       {related.length > 0 && (
         <section className="border-t border-rule bg-paper py-section">

@@ -1,15 +1,15 @@
 /* The Deposit Bar. Geometry lives here so it can be tested in isolation. GSAP animates transform and opacity only. */
-.dbar { position: relative; --wr: 22px; }
+.dbar { position: relative; container-type: inline-size; --wr: 22px; --pct: .4; }
 @media (min-width: 768px) { .dbar { --wr: 34px; } }
 .dbar__drive { display: flex; justify-content: flex-end; overflow: hidden; margin-bottom: .75rem; }
 .dbar__drive > span { display: inline-block; color: rgb(var(--c-campaign)); }
 .dbar__rail { position: relative; height: calc(var(--wr) * 2); }
 .dbar__track { position: absolute; left: 0; right: 0; top: 50%; height: 16px; margin-top: -8px; overflow: hidden; border-radius: 999px; border: 1px solid rgb(var(--c-kerb)); background: rgb(var(--c-pit)); }
-.dbar__fill { position: absolute; inset: 0; background: rgb(var(--c-campaign)); transform-origin: left center; }
-.dbar__tick { position: absolute; left: 40%; top: 0; bottom: 0; width: 1px; background: rgb(255 255 255 / .45); }
-.dbar__wheel { position: absolute; left: 0; top: 0; width: calc(var(--wr) * 2); height: calc(var(--wr) * 2); margin-left: calc(var(--wr) * -1); color: #fff; }
+.dbar__fill { position: absolute; inset: 0; background: rgb(var(--c-campaign)); transform-origin: left center; transform: scaleX(var(--pct)); }
+.dbar__tick { position: absolute; left: calc(var(--pct) * 100%); top: 0; bottom: 0; width: 1px; background: rgb(255 255 255 / .45); }
+.dbar__wheel { position: absolute; left: 0; top: 0; width: calc(var(--wr) * 2); height: calc(var(--wr) * 2); margin-left: calc(var(--wr) * -1); color: #fff; transform: translateX(calc(var(--pct) * 100cqw)); }
 .dbar__labels { position: relative; height: 3rem; margin-top: .5rem; font-size: 13px; font-weight: 650; color: rgb(var(--c-mute-dark)); }
 .dbar__labels > span { position: absolute; top: 0; white-space: nowrap; }
 .dbar__l0 { left: 0; color: #fff; }
-.dbar__l40 { left: 40%; transform: translateX(-50%); color: rgb(var(--c-campaign)); }
+.dbar__l40 { left: calc(var(--pct) * 100%); transform: translateX(-50%); color: rgb(var(--c-campaign)); }
 .dbar__l100 { right: 0; }

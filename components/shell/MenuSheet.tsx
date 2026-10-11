@@ -5,7 +5,8 @@ import { lockScroll, unlockScroll } from "@/lib/motion/scroll";
 import { ease } from "@/lib/tokens";
 import { brand } from "@/config/brand";
 import { menuGroups } from "@/config/nav";
-import { TransitionLink } from "./Transition";
+import { TransitionLink } from "./TransitionLink";
+import { useIsolateScroll } from "./useIsolateScroll";
 import WhatsAppLink from "./WhatsAppLink";
 import { IconChat, IconClose, IconInstagram } from "./Icons";
 
@@ -18,6 +19,7 @@ export function MenuProvider({ children }: { children: ReactNode }) {
   const dlg = useRef<HTMLDialogElement>(null);
   const panel = useRef<HTMLDivElement>(null);
   const scrim = useRef<HTMLDivElement>(null);
+  useIsolateScroll(dlg);
   const open = useCallback(() => setOpen(true), []);
   const close = useCallback(() => setOpen(false), []);
 
@@ -60,14 +62,14 @@ export function MenuProvider({ children }: { children: ReactNode }) {
   return (
     <Ctx.Provider value={{ isOpen, open, close }}>
       {children}
-      <dialog ref={dlg} aria-label="Site menu" className="fixed inset-0 m-0 h-full max-h-none w-full max-w-none border-0 bg-transparent p-0 backdrop:bg-transparent">
+      <dialog ref={dlg} data-lenis-prevent aria-label="Site menu" className="fixed inset-0 m-0 h-full max-h-none w-full max-w-none border-0 bg-transparent p-0 backdrop:bg-transparent">
         <div ref={scrim} className="absolute inset-0 bg-tarmac/55" onClick={close} />
         <div ref={panel} className="absolute inset-x-0 bottom-0 flex max-h-[90dvh] flex-col overflow-hidden rounded-t-[1.75rem] bg-showroom md:inset-x-auto md:right-0 md:top-0 md:max-h-none md:h-full md:w-[480px] md:rounded-none">
           <div className="flex items-center justify-between px-6 pb-2 pt-5">
             <p className="t-eyebrow">Menu</p>
             <button type="button" onClick={close} className="grid h-11 w-11 place-items-center rounded-full border border-rule hover:bg-paper" aria-label="Close menu"><IconClose /></button>
           </div>
-          <nav className="flex-1 overflow-y-auto overscroll-contain px-6 pb-4" aria-label="Site">
+          <nav data-lenis-prevent className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-6 pb-4" aria-label="Site">
             {menuGroups.map((g) => (
               <section key={g.title} className="pt-4">
                 <h2 data-row className="t-eyebrow">{g.title}</h2>

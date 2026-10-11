@@ -21,7 +21,7 @@ One variable family, Archivo (weight 100-900, width 62-125). Display and figures
 ## Motion
 - Transform and opacity only. Easing: `expo.out` (entrances), `power4.inOut` (curtains), `power3.out` (soft).
 - **Preloader:** first visit per session. Logo assembles in pure CSS from first paint (no JS needed), wheel rolls in, then GSAP lifts the curtain. Skipped on repeat visits and on `/pay-40`.
-- **Page transition:** red panel and rolling wheel, about 1.1s. Plain navigation under reduced motion.
+- **Page transition ("drive-through"):** a black then a red panel sweep left to right in one continuous direction; the destination's name rises while you are covered ("Taking you to / Cars"); a wheel rolls along a rail with its spin computed from the distance, pausing halfway while the page arrives; then the panels drive on off the right edge. About 2 seconds. Plain navigation under reduced motion. The `/pay-40` ad page has no transition.
 - **Cursor and magnetic buttons:** desktop fine pointers only. **Lenis:** desktop only; phones scroll natively.
 - Reduced motion is respected everywhere. Every GSAP effect is created in an effect or `gsap.context` and cleaned up on unmount.
 
@@ -36,3 +36,18 @@ Every car and form action opens one sheet: an optional name, one-tap questions, 
 - No monthly repayment appears unless an interest rate and tenor are set. Otherwise: "Final terms are confirmed on WhatsApp."
 - The pre-qualification form only collects details. No approval or decision language anywhere.
 - The pre-order tracker is labelled "Sample flow" and says it is not the business's real process.
+
+## Shortlist drawer
+The heart in the header (and the "View" action after saving a car) opens a side panel first: a preview of saved cars with their down payment or price, then three choices: send an enquiry, open the full compare page, or keep browsing. Up to three cars can be saved. Each saved car stores a small snapshot (title, link, figure, image), so the drawer needs no car data.
+
+## Scrolling inside panels
+While a panel (menu, enquiry sheet, shortlist drawer) is open the page scroll is locked by stopping Lenis, and a stopped Lenis cancels every wheel event on the page, which also froze scrolling inside the panel. Each panel therefore carries `data-lenis-prevent` and `useIsolateScroll`, which keeps wheel and touch events inside the panel. This was reproduced and fixed in a real browser test (blocked without it, scrolls with it).
+
+## Visible by default
+Content is never hidden by CSS alone. Headings that rise word by word are hidden only after the page has booted and only until the stage lights, with a 4.5 second failsafe that reveals everything if the page never comes alive. Below-the-fold sections are marked pending by JavaScript and released by an IntersectionObserver.
+
+## The /pay-40 ad page
+Same header idea (logo and a "Main site" link), same footer as the rest of the site, no preloader, transition, smooth scroll or cursor. It shows real down payments from the listings, the registration number, the Instagram link and recent handovers.
+
+## Landing page
+Offer bar, then a one-car-at-a-time hero. The "Pay 40% and drive" badge (a ring of text turning around the wheel) appears only on cars with installment open; other slides show their plain price and "Financing on this car: ask us." Slide heights are balanced by design (two-line title, fixed payment area) so the page does not jump. Below: stats from real data, the services ticker, featured cars, shop by brand, a down-payment browser, the Deposit Bar band, tool tiles, a quote band in the dealership's own words, services, recently sold, Instagram, and FAQ.

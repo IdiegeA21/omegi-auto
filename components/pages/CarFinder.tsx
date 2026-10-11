@@ -41,6 +41,7 @@ export default function CarFinder({ cars }: { cars: PublicCar[] }) {
   }, [i]);
 
   const result = useMemo(() => (step === "results" ? findMatches(cars, a) : null), [step, cars, a]);
+  const live = useMemo(() => { const r = findMatches(cars, a); return r.relaxed ? 0 : r.exact.length + r.askPrice.length; }, [cars, a]);
   const bandLabel = downBands.find((b) => b.id === a.band)?.label ?? "Not sure yet";
   const typeLabel = (useBody ? a.body : a.category) ?? "No preference";
   const picks = result ? [...result.exact, ...result.askPrice, ...result.closest] : [];
@@ -58,6 +59,7 @@ export default function CarFinder({ cars }: { cars: PublicCar[] }) {
 
   return (
     <div className="wrap pb-section">
+      <div className="mb-4 flex items-center justify-between gap-4 text-[13px] font-semibold text-mute"><span>Step {Math.min(i + 1, steps.length)} of {steps.length}</span><span role="status" aria-live="polite" className="rounded-full bg-paper px-3.5 py-1.5 text-tarmac">{budgetSet || a.brands.length || a.body || a.category ? `${live} ${live === 1 ? "car matches" : "cars match"} so far` : `${cars.filter((c) => c.status === "available").length} cars to choose from`}</span></div>
       <ol className="flex gap-2" aria-label="Progress">
         {steps.map((s, k) => <li key={s} className="flex-1"><span className={`block h-[3px] rounded-full transition-colors duration-500 ${k <= i ? "bg-tarmac" : "bg-rule"}`} /><span className="sr-only">{`Step ${k + 1} of ${steps.length}${k === i ? ", current" : ""}`}</span></li>)}
       </ol>

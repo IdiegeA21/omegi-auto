@@ -1,5 +1,5 @@
 import Reveal from "@/components/ui/Reveal";
-import { TransitionLink } from "@/components/shell/Transition";
+import { TransitionLink } from "@/components/shell/TransitionLink";
 
 export default function NotFound() {
   return (

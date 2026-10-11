@@ -7,7 +7,7 @@ const queue = new Set<() => void>();
 
 export const gate = {
   isOpen: () => open,
-  open() { open = true; const fns = [...queue]; queue.clear(); fns.forEach((f) => f()); },
+  open() { open = true; if (typeof document !== "undefined") document.documentElement.classList.add("stage-lit"); const fns = [...queue]; queue.clear(); fns.forEach((f) => f()); },
   close() { open = false; },
   /** Runs cb when the gate is open (immediately if already open). Returns a cancel fn for cleanup. */
   whenOpen(cb: () => void) {

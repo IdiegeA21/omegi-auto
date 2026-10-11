@@ -1,7 +1,8 @@
 "use client";
 import { useSyncExternalStore } from "react";
 
-export type SavedCar = { id: string; title: string; image: string | null };
+/** Saved with a small snapshot (link and figure) so the drawer can preview without loading any car data. */
+export type SavedCar = { id: string; title: string; image: string | null; slug?: string; figure?: string | null };
 const KEY = "omegi-shortlist";
 const EMPTY: SavedCar[] = [];
 let items: SavedCar[] = EMPTY;

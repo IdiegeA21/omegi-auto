@@ -1,5 +1,5 @@
 import { carTitle } from "@/lib/carTitle";
-import { TransitionLink } from "@/components/shell/Transition";
+import { TransitionLink } from "@/components/shell/TransitionLink";
 import type { PublicCar } from "@/types/car";
 import CarMedia from "./CarMedia";
 import PaymentBlock from "./PaymentBlock";

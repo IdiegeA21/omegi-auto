@@ -1,5 +1,5 @@
 import { IconArrow, IconChat } from "@/components/shell/Icons";
-import { TransitionLink } from "@/components/shell/Transition";
+import { TransitionLink } from "@/components/shell/TransitionLink";
 import EnquiryButton from "@/components/shell/EnquiryButton";
 import { generalEnquiry } from "@/lib/enquiryRequests";
 import Reveal from "@/components/ui/Reveal";

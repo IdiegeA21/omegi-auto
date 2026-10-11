@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { TransitionLink } from "./Transition";
+import { TransitionLink } from "./TransitionLink";
 import WhatsAppLink from "./WhatsAppLink";
 import { useMenu } from "./MenuSheet";
 import { IconCar, IconChat, IconMenu, IconPercent } from "./Icons";

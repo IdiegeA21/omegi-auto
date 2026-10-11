@@ -1,5 +1,5 @@
 import CarCard from "@/components/car/CarCard";
-import { TransitionLink } from "@/components/shell/Transition";
+import { TransitionLink } from "@/components/shell/TransitionLink";
 import { IconArrow } from "@/components/shell/Icons";
 import Reveal from "@/components/ui/Reveal";
 import Rise from "@/components/ui/Rise";

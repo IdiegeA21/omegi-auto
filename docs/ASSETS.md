@@ -71,3 +71,6 @@ One folder per car. The main photo is `hero.webp` (`.jpg`, `.jpeg`, `.png` and `
 - Showroom address and map pin; opening hours.
 - Permission to show sold-car customers (initials only today) and their handover photos.
 - Confirmation of which cars really have installment financing open. Today it is deduced from captions; change `payment.installment` per car.
+
+## If the home page shows only the brand name
+That is an old placeholder `app/page.tsx` left behind by an earlier version. Run `npm run doctor` (it also runs automatically before `dev` and `build`), or delete `app/page.tsx` and the `.next` folder by hand. The real home page is `app/(site)/page.tsx`.

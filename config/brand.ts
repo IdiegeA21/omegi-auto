@@ -64,7 +64,7 @@ export const brand = {
     onLightMuted: "#5C5C5C", // on white 6.7:1, on paper 6.1:1
 
     // Function only (availability dot). Never used as a brand colour.
-    available: "#2FBF71", // dot on tarmac 8.6:1 (non-text, needs 3:1)
+    available: "#1E8A4F", // availability dot only. On white 4.4:1, on tarmac 4.6:1 (non-text needs 3:1)
   },
 
   // ---- Type ----------------------------------------------------------------

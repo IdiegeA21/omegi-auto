@@ -1,18 +1,19 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
+import CarCard from "@/components/car/CarCard";
 import CarMedia from "@/components/car/CarMedia";
 import PaymentBlock from "@/components/car/PaymentBlock";
 import StatusBadge from "@/components/car/StatusBadge";
 import { IconChat } from "@/components/shell/Icons";
 import EnquiryButton from "@/components/shell/EnquiryButton";
-import { TransitionLink } from "@/components/shell/Transition";
+import { TransitionLink } from "@/components/shell/TransitionLink";
 import { carTitle } from "@/lib/carTitle";
 import { shortlistEnquiry } from "@/lib/enquiryRequests";
 import { MAX_SHORTLIST, toggleSaved, useShortlist } from "@/lib/shortlist";
 import type { PublicCar } from "@/types/car";
 
 /** Side-by-side compare of up to three saved cars. Saved on this device only. */
-export default function ShortlistView({ cars }: { cars: PublicCar[] }) {
+export default function ShortlistView({ cars, suggestions = [] }: { cars: PublicCar[]; suggestions?: PublicCar[] }) {
   const saved = useShortlist();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -27,6 +28,7 @@ export default function ShortlistView({ cars }: { cars: PublicCar[] }) {
           <p className="mt-3 max-w-[46ch] text-mute">Tap the heart on any car to save it here. You can compare up to {MAX_SHORTLIST} cars side by side.</p>
           <TransitionLink href="/inventory" className="btn btn-red mt-6">Browse the cars</TransitionLink>
         </div>
+        {suggestions.length > 0 && (<><h2 className="t-display t-d3 mt-14">Start with these</h2><div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{suggestions.map((c) => <CarCard key={c.id} car={c} className="h-full" />)}</div></>)}
       </div>
     );
 

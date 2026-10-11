@@ -6,8 +6,10 @@ import { ease } from "@/lib/tokens";
 import { buildMessage, type EnquiryRequest } from "@/lib/enquiry";
 import { enquiryChannel } from "@/lib/whatsapp";
 import { IconChat, IconClose } from "./Icons";
+import { useIsolateScroll } from "./useIsolateScroll";
 
-const Ctx = createContext<{ open: (r: EnquiryRequest) => void }>({ open: () => {} });
+const Ctx = createContext<{ open: (r: EnquiryRequest) => void } | null>(null);
+/** null when rendered outside the provider; callers fall back to a plain WhatsApp link. */
 export const useEnquiry = () => useContext(Ctx);
 
 /**
@@ -24,6 +26,7 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
   const dlg = useRef<HTMLDialogElement>(null);
   const panel = useRef<HTMLDivElement>(null);
   const scrim = useRef<HTMLDivElement>(null);
+  useIsolateScroll(dlg);
 
   const open = useCallback((r: EnquiryRequest) => { setReq(r); setChips(r.preselect ?? []); setNote(""); setOpen(true); }, []);
   const close = useCallback(() => setOpen(false), []);
@@ -68,10 +71,10 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
   return (
     <Ctx.Provider value={{ open }}>
       {children}
-      <dialog ref={dlg} aria-labelledby="enq-title" className="fixed inset-0 m-0 h-full max-h-none w-full max-w-none border-0 bg-transparent p-0 backdrop:bg-transparent">
+      <dialog ref={dlg} data-lenis-prevent aria-label="Message us on WhatsApp" aria-labelledby={req ? "enq-title" : undefined} className="fixed inset-0 m-0 h-full max-h-none w-full max-w-none border-0 bg-transparent p-0 backdrop:bg-transparent">
         <div ref={scrim} className="absolute inset-0 bg-tarmac/60" onClick={close} />
         <div className="pointer-events-none relative flex h-full items-end justify-center md:items-center md:p-6">
-          <div ref={panel} className="pointer-events-auto max-h-[94dvh] w-full overflow-y-auto overscroll-contain rounded-t-[1.75rem] bg-showroom md:max-w-[560px] md:rounded-[1.75rem]">
+          <div ref={panel} data-lenis-prevent className="pointer-events-auto max-h-[94dvh] w-full overflow-y-auto overscroll-contain rounded-t-[1.75rem] bg-showroom md:max-w-[560px] md:rounded-[1.75rem]">
             {req && (
               <div className="p-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] md:p-8">
                 <div className="flex items-start justify-between gap-4">

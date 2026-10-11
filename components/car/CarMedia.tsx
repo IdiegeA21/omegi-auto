@@ -20,11 +20,15 @@ export default function CarMedia({ car, priority = false, sizes = "(min-width:10
   const zoomCls = zoom ? "transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]" : "";
 
   if (!hero || failed) {
+    // The most distinctive token of the model (the one with a number, e.g. G63, LX600), drawn as outlined ghost type.
+    const toks = car.model.split(" ");
+    const ghost = toks.find((t) => /\d/.test(t)) ?? toks[0];
     return (
-      <div role="img" aria-label={`${title}, photo to come`} className={`relative overflow-hidden bg-tarmac ${ratio} ${className}`}
-        style={{ backgroundImage: "radial-gradient(90% 80% at 50% 45%, rgb(var(--c-kerb)) 0%, rgb(var(--c-pit)) 55%, rgb(var(--c-tarmac)) 100%)" }}>
-        <CarSilhouette className={`absolute inset-x-[10%] bottom-[16%] w-[80%] text-white/[.13] ${zoomCls}`} />
-        <span className="absolute left-4 top-4 text-[12px] font-semibold text-mute-dark">{car.brand}</span>
+      <div role="img" aria-label={`${title}, photo to come`} className={`ph relative overflow-hidden bg-tarmac ${ratio} ${className}`}>
+        <span className="ph__ghost" aria-hidden="true" style={{ fontSize: `clamp(2rem, ${Math.min(27, Math.floor(150 / ghost.length))}cqw, 10rem)` }}>{ghost}</span>
+        <CarSilhouette className={`absolute inset-x-[7%] bottom-[17%] w-[86%] text-white/[.17] ${zoomCls}`} />
+        <span className="absolute bottom-4 left-4 text-[12px] font-semibold text-mute-dark">{car.brand}</span>
+        <span className="absolute bottom-3.5 right-3.5 rounded-full border border-white/20 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white/60">Photo coming soon</span>
       </div>
     );
   }

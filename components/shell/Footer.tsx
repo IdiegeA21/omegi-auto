@@ -1,15 +1,15 @@
-import { LogoImage } from "@/components/brand/Logo";
+import { LogoImage } from "@/components/brand/LogoImage";
 import { brand } from "@/config/brand";
 import { footerNav } from "@/config/nav";
-import { TransitionLink } from "./Transition";
+import { TransitionLink } from "./TransitionLink";
 import WhatsAppLink from "./WhatsAppLink";
 import { IconArrow, IconCheck, IconChat, IconInstagram } from "./Icons";
 
 const Col = ({ title, items }: { title: string; items: { href: string; label: string }[] }) => (
   <div>
     <h2 className="t-eyebrow">{title}</h2>
-    <ul className="mt-4 grid gap-1">
-      {items.map((i) => (<li key={i.href}><TransitionLink href={i.href} className="u40 text-[15px] text-white/90">{i.label}</TransitionLink></li>))}
+    <ul className="mt-3 grid">
+      {items.map((i) => (<li key={i.href}><TransitionLink href={i.href} className="u40 inline-flex min-h-[44px] items-center text-[15px] text-white/90">{i.label}</TransitionLink></li>))}
     </ul>
   </div>
 );
@@ -31,9 +31,9 @@ export default function Footer() {
           <div>
             <LogoImage tone="dark" height={64} />
             <p className="mt-5 max-w-[30ch] text-[15px] text-mute-dark">{brand.tagline}.</p>
-            <ul className="mt-6 grid gap-2 text-[15px]">
-              <li><a href={`tel:+${c.callNumber}`} className="u40">{c.phoneDisplay}</a></li>
-              <li><a href={c.instagram.url} target="_blank" rel="noopener noreferrer" className="u40 inline-flex items-center gap-2"><IconInstagram className="h-[18px] w-[18px]" />@{c.instagram.handle}{features.showFollowerCount && <span className="text-mute-dark"> · {c.instagram.followers} followers</span>}<span className="sr-only"> (opens in a new tab)</span></a></li>
+            <ul className="mt-5 grid text-[15px]">
+              <li><a href={`tel:+${c.callNumber}`} className="u40 inline-flex min-h-[44px] items-center">{c.phoneDisplay}</a></li>
+              <li><a href={c.instagram.url} target="_blank" rel="noopener noreferrer" className="u40 inline-flex min-h-[44px] items-center gap-2"><IconInstagram className="h-[18px] w-[18px]" />@{c.instagram.handle}{features.showFollowerCount && <span className="text-mute-dark"> · {c.instagram.followers} followers</span>}<span className="sr-only"> (opens in a new tab)</span></a></li>
               <li className="text-mute-dark">{address.showOnSite && address.line1 ? `${address.line1}, ${address.city}` : `${address.city}, ${address.country}`}</li>
             </ul>
           </div>

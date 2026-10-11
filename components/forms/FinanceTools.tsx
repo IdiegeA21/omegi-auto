@@ -9,6 +9,8 @@ import { brand } from "@/config/brand";
 import { carTitle } from "@/lib/carTitle";
 import { estimate, monthlyOptions, parseNaira } from "@/lib/estimate";
 import { collect } from "@/lib/forms";
+import { buildMessage } from "@/lib/enquiry";
+import { enquiryChannel } from "@/lib/whatsapp";
 import { gsap, prefersReducedMotion } from "@/lib/motion/gsap";
 import { nairaText } from "@/lib/money";
 import { resolvePayment } from "@/lib/payment";
@@ -31,7 +33,7 @@ export default function FinanceTools({ cars }: { cars: PublicCar[] }) {
   const [carId, setCarId] = useState("");
   const [priceText, setPriceText] = useState("");
   const out = useRef<HTMLDivElement>(null);
-  const { open } = useEnquiry();
+  const open = useEnquiry()?.open ?? ((r: EnquiryRequest) => { window.open(enquiryChannel(buildMessage(r)).href, "_blank", "noopener"); });
   const pct = brand.finance.downPaymentPercent;
 
   const result: Result = useMemo(() => {

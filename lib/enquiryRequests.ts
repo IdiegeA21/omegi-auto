@@ -4,6 +4,7 @@ import { nairaText } from "@/lib/money";
 import { resolvePayment } from "@/lib/payment";
 import type { EnquiryRequest } from "@/lib/enquiry";
 import type { PublicCar } from "@/types/car";
+import type { SavedCar } from "@/lib/shortlist";
 
 export const CAR_CHIPS = ["Is it available?", "Can I inspect it?", "What are the financing terms?"];
 
@@ -15,6 +16,9 @@ export function figureLines(car: PublicCar): { label: string; value: string }[] 
   if (v.price != null) out.push({ label: "Price", value: nairaText(v.price) });
   return out;
 }
+
+/** One short line describing the money we know about a car, for saved-car previews. */
+export const figureLabel = (car: PublicCar): string => { const f = figureLines(car)[0]; return f ? `${f.label} ${f.value}` : brand.finance.unknownPrice; };
 
 export function carEnquiry(car: PublicCar): EnquiryRequest {
   const title = carTitle(car);
@@ -31,6 +35,15 @@ export function shortlistEnquiry(cars: PublicCar[]): EnquiryRequest {
   return {
     kind: "shortlist", title: "Send my shortlist", intro: `Here is my shortlist (${cars.length} ${cars.length === 1 ? "car" : "cars"}):`,
     details: cars.map((c, i) => { const f = figureLines(c)[0]; return { label: `${i + 1}. ${carTitle(c)}`, value: f ? `${f.label} ${f.value}` : brand.finance.unknownPrice }; }),
+    chips: ["Are these available?", "Can I inspect them?", "What are the financing terms?"],
+  };
+}
+
+/** The same shortlist message, built from the small snapshots the drawer holds. */
+export function shortlistEnquiryFromSaved(saved: SavedCar[]): EnquiryRequest {
+  return {
+    kind: "shortlist", title: "Send my shortlist", intro: `Here is my shortlist (${saved.length} ${saved.length === 1 ? "car" : "cars"}):`,
+    details: saved.map((c, i) => ({ label: `${i + 1}. ${c.title}`, value: c.figure ?? brand.finance.unknownPrice })),
     chips: ["Are these available?", "Can I inspect them?", "What are the financing terms?"],
   };
 }

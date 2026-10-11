@@ -5,10 +5,9 @@ import "./preloader.css";
 import "./deposit.css";
 import "./sflow.css";
 import "./adbar.css";
+import WheelDefs from "@/components/brand/WheelDefs";
 import { brand } from "@/config/brand";
-import { themeCss } from "@/lib/theme"; 
-
-//just a note: the font is not used in the body, but it is used in the header and footer, so we need to load it here. The body uses the system font stack.
+import { themeCss } from "@/lib/theme";
 
 // One variable file: weight 100-900 plus the width axis (62-125), so headlines are condensed and text is normal width.
 const archivo = Archivo({ subsets: ["latin"], axes: ["wdth"], display: "swap", variable: "--font-archivo" });
@@ -27,7 +26,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: brand.site.themeColor, width: "device-width", initialScale: 1 };
 
 // Runs before first paint: marks JS as available and skips the intro on repeat visits this session.
-const boot = `(function(){var d=document.documentElement;d.classList.add('js');try{if(sessionStorage.getItem('omegi-seen')==='1')d.dataset.seen='1'}catch(e){}setTimeout(function(){d.classList.add('rv-failsafe')},7000)})();`;
+const boot = `(function(){var d=document.documentElement;d.classList.add('js');try{if(sessionStorage.getItem('omegi-seen')==='1')d.dataset.seen='1'}catch(e){}setTimeout(function(){if(!d.classList.contains('stage-lit'))d.classList.add('rv-failsafe')},4500)})();`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -36,7 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <style id="brand-theme" dangerouslySetInnerHTML={{ __html: themeCss() }} />
         <script dangerouslySetInnerHTML={{ __html: boot }} />
       </head>
-      <body className="font-sans">{children}</body>
+      <body className="font-sans"><WheelDefs />{children}</body>
     </html>
   );
 }

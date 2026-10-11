@@ -2,7 +2,7 @@ import CarMedia from "@/components/car/CarMedia";
 import StatusBadge from "@/components/car/StatusBadge";
 import { IconArrow, IconChat } from "@/components/shell/Icons";
 import EnquiryButton from "@/components/shell/EnquiryButton";
-import { TransitionLink } from "@/components/shell/Transition";
+import { TransitionLink } from "@/components/shell/TransitionLink";
 import Reveal from "@/components/ui/Reveal";
 import Rise from "@/components/ui/Rise";
 import { carTitle } from "@/lib/carTitle";
@@ -21,6 +21,7 @@ export default function SoldWall({ cars, compact = false }: { cars: PublicCar[];
             <TransitionLink href="/sold" className="btn btn-line">See all <IconArrow /></TransitionLink>
           </div>
         )}
+        {!compact && <h2 className="sr-only">Sold cars</h2>}
         <Rise className={`${compact ? "mt-10" : ""} grid gap-5 md:grid-cols-2`}>
           {cars.map((c) => (
             <article key={c.id} data-rise className="overflow-hidden rounded-3xl border border-rule bg-showroom">

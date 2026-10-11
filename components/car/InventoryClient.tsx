@@ -106,6 +106,7 @@ export default function InventoryClient({ cars }: { cars: PublicCar[] }) {
         </div>
       ) : (
         <>
+          <h2 className="sr-only">Cars</h2>
           <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {visible.map((c, k) => <CarCard key={c.id} car={c} className="card-in h-full" style={{ animationDelay: `${(k % inventoryPageSize) * 55}ms` }} />)}
           </div>

@@ -3,11 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 5000",
+    "dev": "next dev -p 5100",
     "build": "next build",
     "start": "next start",
     "lint": "tsc --noEmit",
-    "assets:check": "node scripts/check-assets.mjs"
+    "assets:check": "node scripts/check-assets.mjs",
+    "doctor": "node scripts/doctor.mjs",
+    "predev": "node scripts/doctor.mjs",
+    "prebuild": "node scripts/doctor.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

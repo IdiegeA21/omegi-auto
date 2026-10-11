@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { WheelMark } from "@/components/brand/Logo";
+import { WheelMark } from "@/components/brand/WheelMark";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/motion/gsap";
 import { ease } from "@/lib/tokens";
 

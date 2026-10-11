@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { gsap, isFinePointer, prefersReducedMotion } from "@/lib/motion/gsap";
-import { WheelMark } from "@/components/brand/Logo";
+import { WheelMark } from "@/components/brand/WheelMark";
 import { brand } from "@/config/brand";
 
 /** A small wheel that trails the pointer and spins with horizontal movement. Desktop fine pointers only. Native cursor stays visible. */

@@ -1,9 +1,10 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import CarMedia from "@/components/car/CarMedia";
+import Badge40 from "./Badge40";
 import PaymentBlock from "@/components/car/PaymentBlock";
 import { IconChat, IconChevron, IconPause, IconPlay } from "@/components/shell/Icons";
-import { TransitionLink } from "@/components/shell/Transition";
+import { TransitionLink } from "@/components/shell/TransitionLink";
 import EnquiryButton from "@/components/shell/EnquiryButton";
 import { carEnquiry } from "@/lib/enquiryRequests";
 import { brand } from "@/config/brand";
@@ -49,6 +50,8 @@ export default function Hero({ cars }: { cars: PublicCar[] }) {
       .fromTo(b, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 0.15)
       .fromTo(b.querySelectorAll("[data-h]"), { y: 34, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: ease.out, stagger: 0.07 }, 0.2)
       .fromTo(b.querySelector("[data-media]"), { scale: 1.07, x: 26 }, { scale: 1, x: 0, duration: 1.3, ease: ease.out }, 0.1);
+    const badge = b.querySelector("[data-badge]");
+    if (badge) gsap.fromTo(badge, { scale: 0.4, rotation: -50, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: 1, ease: "back.out(1.7)", delay: 0.55 });
   }, [n]);
 
   // Intro: the first slide's text is hidden by CSS until hydration (no flash), then rises once the stage is lit
@@ -93,54 +96,14 @@ export default function Hero({ cars }: { cars: PublicCar[] }) {
     <section ref={root} aria-roledescription="carousel" aria-label="Featured cars" onKeyDown={onKey}
       onPointerEnter={(e) => e.pointerType === "mouse" && hold(true)} onPointerLeave={(e) => e.pointerType === "mouse" && hold(false)}
       onFocus={() => hold(true)} onBlur={() => hold(false)}>
-      <div className="wrap pb-10 pt-6 md:pb-16 md:pt-10">
-        <h1 className="t-eyebrow">{brand.tagline} · {brand.address.city}</h1>
-
-        <div className="mt-4 grid">
-          {cars.map((car, k) => {
-            const title = carTitle(car);
-            const v = resolvePayment(car.payment);
-            // Images beyond the next slide are held back so only the hero image loads eagerly.
-            const mediaCar = k > reach ? { ...car, media: { ...car.media, hero: null } } : car;
-            return (
-              <div key={car.id} ref={(el) => { slides.current[k] = el; }} role="group" aria-roledescription="slide" aria-label={`${k + 1} of ${n}`}
-                data-hero-intro={k === 0 ? "" : undefined} aria-hidden={k !== i} inert={k !== i} style={{ opacity: k === 0 ? 1 : 0, gridArea: "1 / 1" }}
-                className="grid gap-7 md:grid-cols-12 md:items-center md:gap-10">
-                <div className="md:order-2 md:col-span-7" data-media-wrap onPointerDown={onDown} onPointerUp={onUp} style={{ touchAction: "pan-y" }}>
-                  <div data-media className="overflow-hidden rounded-[1.75rem]">
-                    <CarMedia car={mediaCar} priority={k === 0} sizes="(min-width:768px) 58vw, 94vw" ratio="aspect-[4/3] md:aspect-[5/4]" zoom={false} />
-                  </div>
-                </div>
-                <div className="md:order-1 md:col-span-5">
-                  <p data-h className="t-eyebrow">{String(k + 1).padStart(2, "0")} / {String(n).padStart(2, "0")} · {car.brand}</p>
-                  <h2 data-h className="t-display t-d2 mt-3">{title}</h2>
-                  <div data-h className="mt-6">
-                    {v.installment ? (
-                      <>
-                        <span className="inline-flex items-center gap-2 rounded-full bg-omegi px-3.5 py-1.5 text-[13px] font-bold text-white"><span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-white" />Pay 40% and drive</span>
-                        <div className="mt-4">
-                          {v.downPayment
-                            ? <PaymentBlock payment={car.payment} size="lg" hideTag />
-                            : <p className="text-[15px] text-mute">Down payment: {brand.finance.unknownPrice.toLowerCase()}</p>}
-                        </div>
-                      </>
-                    ) : <PaymentBlock payment={car.payment} size="lg" />}
-                  </div>
-                  <div data-h className="mt-8 flex flex-wrap gap-3">
-                    <EnquiryButton request={carEnquiry(car)} className="btn btn-red"><IconChat /> Chat about this car</EnquiryButton>
-                    <TransitionLink href={`/inventory/${car.slug}`} className="btn btn-line">View car</TransitionLink>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="mt-8 flex items-center gap-3">
+      <div className="wrap pb-8 pt-6 md:pb-10 md:pt-8">
+        <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between md:gap-8">
+          <h1 className="t-eyebrow">{brand.tagline} · {brand.address.city}</h1>
+        <div className="flex items-center gap-3 md:w-[27rem]">
           <ol className="flex flex-1 gap-2" aria-label="Choose a slide">
             {cars.map((car, k) => (
               <li key={car.id} className="flex-1">
-                <button type="button" onClick={() => show(k)} aria-label={`Show ${carTitle(car)}`} aria-current={k === i} className="group block w-full py-3">
+                <button type="button" onClick={() => show(k)} aria-label={`Show ${carTitle(car)}`} aria-current={k === i} className="group flex min-h-[44px] w-full items-center">
                   <span className="block h-[3px] overflow-hidden rounded-full bg-rule"><span ref={(el) => { bars.current[k] = el; }} className="block h-full origin-left scale-x-0 bg-tarmac" /></span>
                 </button>
               </li>
@@ -154,6 +117,60 @@ export default function Hero({ cars }: { cars: PublicCar[] }) {
             <button type="button" onClick={() => show(cur.current + 1)} aria-label="Next car" className="grid h-11 w-11 place-items-center rounded-full border border-rule hover:bg-paper"><IconChevron /></button>
           </div>
         </div>
+        </div>
+
+        <div className="mt-4 grid">
+          {cars.map((car, k) => {
+            const title = carTitle(car);
+            const v = resolvePayment(car.payment);
+            // Images beyond the next slide are held back so only the hero image loads eagerly.
+            const mediaCar = k > reach ? { ...car, media: { ...car.media, hero: null } } : car;
+            return (
+              <div key={car.id} ref={(el) => { slides.current[k] = el; }} role="group" aria-roledescription="slide" aria-label={`${k + 1} of ${n}`}
+                data-hero-intro={k === 0 ? "" : undefined} aria-hidden={k !== i} inert={k !== i} style={{ opacity: k === 0 ? 1 : 0, gridArea: "1 / 1", alignSelf: "start" }}
+                className="grid content-start gap-7 md:grid-cols-12 md:items-center md:gap-10">
+                <div className="md:order-2 md:col-span-7" data-media-wrap onPointerDown={onDown} onPointerUp={onUp} style={{ touchAction: "pan-y" }}>
+                  <div className="relative">
+                  {v.installment && <div className="absolute -right-2 -top-4 z-10 md:-right-5 md:-top-6"><Badge40 id={`b40-${car.id}`} /></div>}
+                  <div data-media className="overflow-hidden rounded-[1.75rem]">
+                    <CarMedia car={mediaCar} priority={k === 0} sizes="(min-width:768px) 58vw, 94vw" ratio="aspect-[4/3] md:aspect-[5/4]" zoom={false} />
+                  </div>
+                  </div>
+                </div>
+                <div className="md:order-1 md:col-span-5">
+                  <p data-h className="t-eyebrow">{String(k + 1).padStart(2, "0")} / {String(n).padStart(2, "0")} · {car.brand}</p>
+                  <h2 data-h className="t-display mt-3 min-h-[1.8em] text-[clamp(2.4rem,5.4vw,4.6rem)]">{title}</h2>
+                  {(() => {
+                    const facts = [car.condition, car.interior ? `${car.interior} interior` : null, car.mileage, ...car.features].filter((x): x is string => !!x).slice(0, 3);
+                    return <ul data-h className="mt-5 flex min-h-[2.25rem] flex-wrap gap-2">{facts.map((f) => <li key={f} className="rounded-full border border-rule px-3 py-1.5 text-[12.5px] font-semibold text-mute">{f}</li>)}</ul>;
+                  })()}
+                  <div data-h className="mt-6 min-h-[12.5rem]">
+                    {v.installment ? (
+                      <>
+                        <span className="inline-flex items-center gap-2 rounded-full bg-omegi px-3.5 py-1.5 text-[13px] font-bold text-white"><span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-white" />Pay 40% and drive</span>
+                        <div className="mt-4">
+                          {v.downPayment
+                            ? <PaymentBlock payment={car.payment} size="lg" hideTag />
+                            : <p className="text-[15px] text-mute">Down payment: {brand.finance.unknownPrice.toLowerCase()}</p>}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <PaymentBlock payment={car.payment} size="lg" />
+                        <p className="mt-4 text-[14px] text-mute">Financing on this car: ask us.</p>
+                      </>
+                    )}
+                  </div>
+                  <div data-h className="mt-8 flex flex-wrap gap-3">
+                    <EnquiryButton request={carEnquiry(car)} className="btn btn-red"><IconChat /> Chat about this car</EnquiryButton>
+                    <TransitionLink href={`/inventory/${car.slug}`} className="btn btn-line">View car</TransitionLink>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
         <p className="sr-only" aria-live="polite">{`Showing ${carTitle(cars[i])}`}</p>
       </div>
     </section>

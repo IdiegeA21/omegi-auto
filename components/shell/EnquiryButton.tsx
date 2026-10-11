@@ -6,10 +6,10 @@ import { useEnquiry } from "./EnquirySheet";
 
 /** Opens the enquiry sheet. It is a real link to WhatsApp underneath, so it still works if JavaScript has not loaded. */
 export default function EnquiryButton({ request, className = "", children }: { request: EnquiryRequest; className?: string; children: ReactNode }) {
-  const { open } = useEnquiry();
+  const enquiry = useEnquiry();
   const { href } = enquiryChannel(buildMessage(request));
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer" className={className} onClick={(e) => { e.preventDefault(); open(request); }}>
+    <a href={href} target="_blank" rel="noopener noreferrer" className={className} onClick={(e) => { if (!enquiry) return; e.preventDefault(); enquiry.open(request); }}>
       {children}
     </a>
   );
