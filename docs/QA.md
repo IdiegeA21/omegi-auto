@@ -4,47 +4,48 @@
 There was no network in the build environment, so `npm install` and `next build` were **never run**. Instead the real code was checked like this:
 
 - **Server rendering.** The project was compiled and every page was rendered to HTML with the real React 19, stubbing only `next/*`, GSAP and Lenis. This proves the pages produce real content and don't crash.
-- **Responsive layout.** That HTML was styled with a small Tailwind translator written for this project (the real Tailwind was not available) and measured in headless Chromium at **360, 390, 768 and 1280 px**. It is an approximation: fonts differ (Archivo was not installed; wider stand-ins were used, which makes overflow checks conservative), and scripts were off, so entrance animations did not run.
+- **Responsive layout.** That HTML was styled with a small Tailwind translator written for this project (the real Tailwind was not available) and measured in headless Chromium at **360, 390, 768, 1024 and 1280 px**. It is an approximation: fonts differ (Archivo was not installed; wider stand-ins were used, which makes overflow checks conservative), and scripts were off, so entrance animations did not run.
 - **Behaviour in a real browser.** Geometry of every custom animation, the menu-scroll fix and the ticker loop were tested in headless Chromium.
 - **Logic.** 75 automated checks on money, payment, filters, finder, messages and data.
 
 ## Results (final code)
 | Check | Result |
 |---|---|
-| Pages server-rendered without error | 19 of 19 (home 1,156 words, 143 KB HTML) |
-| Horizontal overflow at 360 / 390 / 768 / 1280 px | 0 of 76 page-width combinations |
+| Pages server-rendered without error | 19 of 19 |
+| Horizontal overflow at 360 / 390 / 768 / 1024 / 1280 px | 0 of 95 page-width combinations |
 | Accessibility scan (alt text, names, labels, headings, ids, landmarks, dialogs, link safety) | 19 of 19 clean |
-| WhatsApp links in pages | 107 valid, 23 distinct messages, 0 problems |
-| WhatsApp messages the browser can build (all cars, sheet, shortlist, forms, special characters) | 37 checked, 0 problems |
-| Logic tests | 75 pass |
+| WhatsApp links in pages | 108 valid, 24 distinct messages, 0 problems |
+| WhatsApp messages the browser can build (all cars, sheet, shortlist, forms, delivery, special characters) | 37 checked, 0 problems |
+| Logic tests (money, payment, filters, finder, messages, data, geography, delivery) | 97 pass |
 | Type check | clean, apart from missing React and Next type packages |
-| Client code reaching server-only data (cars.json, logo trace, silhouette, `fs`) | none, across 33 client entry points |
+| Client code reaching server-only data (cars, faq, instagram, map data, logo trace, `fs`) | none, across 33 client entry points |
 | `/pay-40` JavaScript | 5 small client modules (4 KB source), no GSAP, no Lenis |
-| Repo search for the previous client | no matches (text, images, file names) |
+| Delivery map: all 36 states and the FCT inside the drawn outline | 37 of 37, checked in a real browser against the final drawn path |
+| Repo search for the previous client (their name, handle, street address, map pin, palette, fonts, stock) | no matches (text, 9 images, file names). The bare city name "Port Harcourt" is deliberately not searched for: it is a Nigerian state capital and appears on the delivery map. |
 
-## Colour contrast (computed)
-| Pair | Ratio | Use |
+## Feedback round 2: what was found and how it was proven
+| Reported | Cause | Evidence |
 |---|---|---|
-| Tarmac on white | 20.4:1 | body text |
-| Graphite on white / paper | 6.7 / 6.1:1 | muted text |
-| Omegi Red on white | 7.4:1 | links, figures |
-| White on Omegi Red | 7.4:1 | buttons |
-| White on tarmac | 20.4:1 | footer, dark bands |
-| Muted on tarmac / pit | 7.2 / 6.4:1 | footer text |
-| Campaign Red on tarmac | 4.7:1 | 13 px label and large type only |
-| Availability green on white / tarmac | 4.4 / 4.7:1 | dot (a fix made in Stage 4: it was 2.4:1) |
+| Dock distorted while animations run; page briefly wider than the screen | The hero's image wrapper itself was scaled and shifted, pushing the page past the screen edge; the root only had `overflow-x: hidden`. | Reproduced in mobile emulation: the layout viewport grew from **390 to 408 px** in the old state and stayed at 390 px with each fix. |
+| Page transition: wheel appears before the background, page appears before the animation | The transition panels carried a CSS `translateX(-101%)` while GSAP animated `xPercent`. GSAP reads a CSS transform as pixels, so the two stack and the panels never reached the screen. | Structural: every GSAP-managed element is now checked to have `transform: none` before animating. GSAP itself was not available to run (see below). |
+| Headings seemed to appear late or pop in | Same conflict: a CSS `translateY(105%)` plus GSAP `yPercent`. | Same check. Pre-hide now uses opacity only. |
+| Menu not scrolling | A stopped Lenis cancels every wheel event, including those meant for the menu. | Reproduced (blocked) and fixed (scrolls) at phone and desktop widths. |
+| `/pay-40` nav buttons joined to the logo | Logo, link pill and button were squeezed into one row. | The way back is now its own bar below 1024 px; measured 83 to 113 px of space on phones. |
+| Delivery page was placeholder-like | Replaced by an illustrated map of Nigeria. | 37 of 37 places inside the outline; all calls to action name the destination. |
 
-Not used for text, by design: Campaign Red on white (4.3:1) and Omegi Red on tarmac (2.8:1).
-
-## Fixed during this round
-Menu scrolling frozen by a stopped Lenis; stale placeholder answering `/` (see the doctor); wheel icon inlined 28 times (home HTML 269 KB to 143 KB); header overflowing on tablets; tap targets under 44 px (footer, offer bar, slide selectors); hero rows stretching; Deposit Bar showing 100% without JavaScript; heading-level jumps; duplicate ids; unnamed dialog; low-contrast availability dot.
+## Fixed earlier this round
+Stale placeholder answering `/` (see the doctor); wheel icon inlined 28 times (home HTML 269 KB to 143 KB); header overflowing on tablets; tap targets under 44 px; hero rows stretching; Deposit Bar showing 100% without JavaScript; heading-level jumps; duplicate ids; unnamed dialog; low-contrast availability dot.
 
 ## Not tested: please check on real devices
 - A real `npm run dev`, then `npm run build`, with the final Archivo font and Tailwind.
 - Lighthouse mobile (target 85+) on a throttled connection. The font file size has not been measured.
 - **360, 390, 768 and desktop, on at least one real iPhone and one mid-range Android.**
+- **GSAP was not installed here, so no GSAP animation has ever been run.** The transition and heading diagnoses rely on GSAP's documented behaviour (it reads an existing CSS transform as pixels) and on checking that the conflicting CSS is gone, not on watching it. Please watch the page transition closely and tell me if anything is still off.
+- The fixed dock on a real iPhone (Safari's toolbar behaviour cannot be reproduced in a desktop browser).
 - Every animation actually running: preloader exit, page transition, hero slides and badge, Deposit Bar, tracker, delivery route, cursor, magnetic buttons.
 - Menu, enquiry sheet and shortlist drawer scrolling on desktop (Lenis) and on touch.
 - The photo fallback (a path set but the file missing falls back to the silhouette via an error handler that needs a browser).
 - Dock behaviour with the on-screen keyboard open.
 - Screen reader pass (VoiceOver, TalkBack) on the menu, sheet and drawer.
+
+- The delivery map is an illustration: the outline is built from border and city coordinates, not surveyed data, so shapes and positions are approximate (and labelled as such on the page).

@@ -11,15 +11,15 @@ import { ease } from "@/lib/tokens";
 import { TransitionCtx } from "./transitionContext";
 
 /** Seconds. Intro ≈ 1.1s, exit ≈ 0.9s: slow enough to read where you are going, short enough not to get in the way. */
-const T = { cover: 0.62, lag: 0.08, labelAt: 0.36, wheelAt: 0.4, exit: 0.8 };
+const T = { cover: 0.62, lag: 0.08, labelAt: 0.5, wheelAt: 0.56, exit: 0.8 };
 const frame = () => new Promise<void>((r) => requestAnimationFrame(() => r()));
 
 /**
  * The signature page transition: a drive-through.
  *  1. A black panel then a red panel sweep across, always left to right, so the direction never reverses.
  *  2. While you are covered, the destination's name rises ("Taking you to / Cars"), so you are never disoriented.
- *  3. A wheel rolls along a rail. Its spin is computed from the distance it travels (it rolls, it doesn't slide),
- *     pausing at the halfway mark while the new page arrives.
+ *  3. A wheel rolls along a rail that lives INSIDE the red panel. Its spin is computed from the distance it travels (it
+ *     rolls, it doesn't slide), pausing at the halfway mark while the new page arrives.
  *  4. The panels drive on off the right edge and the new page's own entrances play as the screen clears.
  * Transform and opacity only. Reduced motion: plain navigation. Never traps the user: a timeout guarantees the exit.
  */
@@ -50,11 +50,13 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
     gate.close();
     lockScroll();
     lb.textContent = routeLabel(href);
-    r.setAttribute("data-on", "");
-    gsap.set([pa, pb], { xPercent: -101 });
-    gsap.set([kk, lb], { opacity: 0, y: 44 });
+    // Place everything BEFORE the layer becomes visible. x/y are zeroed explicitly so no parsed CSS transform can ever stack
+    // with xPercent (GSAP reads a CSS transform as pixels, which is what left the panels off-screen before).
+    gsap.set([pa, pb], { x: 0, y: 0, xPercent: -101 });
+    gsap.set([kk, lb], { x: 0, y: 44, opacity: 0 });
     gsap.set(rl, { opacity: 0 });
-    gsap.set(wh, { x: 0, rotation: 0, opacity: 1 });
+    gsap.set(wh, { x: 0, y: 0, rotation: 0 });
+    r.setAttribute("data-on", "");
     const railW = rl.offsetWidth, R = wh.offsetWidth / 2;
     const roll = (frac: number) => ({ x: railW * frac, rotation: ((railW * frac) / R) * (180 / Math.PI) });
 
@@ -69,7 +71,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
           router.push(href);
         }, T.cover + T.lag)
         .to([kk, lb], { opacity: 1, y: 0, duration: 0.7, ease: ease.out, stagger: 0.07 }, T.labelAt)
-        .to(rl, { opacity: 1, duration: 0.4 }, T.labelAt + 0.05)
+        .to(rl, { opacity: 1, duration: 0.4 }, T.labelAt)
         .to(wh, { ...roll(0.5), duration: 0.55, ease: "power2.out" }, T.wheelAt);
     });
     const exit = () => new Promise<void>((res) => {
@@ -78,7 +80,6 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
         .to(wh, { ...roll(1), duration: 0.85, ease: "power2.inOut" }, 0)
         .to(pb, { xPercent: 101, duration: T.exit, ease: "power3.inOut" }, 0.08)
         .to(pa, { xPercent: 101, duration: T.exit, ease: "power3.inOut" }, 0.08 + T.lag)
-        .to([rl, wh], { opacity: 0, duration: 0.25 }, 0.62)
         .add(() => gate.open(), 0.4);
     });
 
@@ -90,7 +91,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
         await frame();
         await exit();
       } finally {
-        gsap.set([pa, pb], { xPercent: -101 });
+        gsap.set([pa, pb], { x: 0, y: 0, xPercent: -101 });
         gsap.set([kk, lb, rl, wh], { clearProps: "all" });
         r.removeAttribute("data-on");
         unlockScroll();
@@ -110,8 +111,9 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
             <p ref={kicker} className="tr__kicker">Taking you to</p>
             <p ref={label} className="tr__label t-display" />
           </div>
+          {/* The rail and wheel are children of the red panel, so they can never appear before it does. */}
+          <div ref={rail} className="tr__rail"><div className="tr__line" /><div ref={wheel} className="tr__wheel"><WheelMark className="h-full w-full" /></div></div>
         </div>
-        <div ref={rail} className="tr__rail"><div className="tr__line" /><div ref={wheel} className="tr__wheel"><WheelMark className="h-full w-full" /></div></div>
       </div>
     </TransitionCtx.Provider>
   );

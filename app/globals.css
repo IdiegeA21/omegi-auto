@@ -20,7 +20,9 @@ html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--header-h) 
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: hidden; }
-body { overflow-x: hidden; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+html, body { max-width: 100%; overflow-x: hidden; }
+@supports (overflow: clip) { html, body { overflow-x: clip; } }
+body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
   font-variation-settings: "wdth" 100; font-weight: 450; background: rgb(var(--c-showroom)); color: rgb(var(--c-tarmac)); }
 ::selection { background: rgb(var(--c-omegi)); color: #fff; }
 :focus-visible { outline: 2px solid rgb(var(--c-omegi)); outline-offset: 3px; border-radius: 2px; }
@@ -65,8 +67,10 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; text-rendering: 
 /* ---------- Reveal (words rise). Visible without JS. ---------- */
 .rv-w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .12em; margin-bottom: -.12em; }
 .rv-i { display: inline-block; }
-html.js .rv:not(.is-in) .rv-i { transform: translateY(105%); }
-html.js.rv-failsafe:not(.stage-lit) .rv .rv-i { transform: none !important; }
+/* Pre-hide with opacity ONLY. A CSS transform on an element GSAP also animates is read by GSAP as pixels and stacks with its own
+   yPercent, which left words hidden and then popping in. GSAP sets the starting offset itself. */
+html.js .rv:not(.is-in) .rv-i { opacity: 0; }
+html.js.rv-failsafe:not(.stage-lit) .rv .rv-i { opacity: 1 !important; }
 
 /* ---------- Logo colours ---------- */
 .logo { display: block; overflow: visible; }
@@ -76,9 +80,9 @@ html.js.rv-failsafe:not(.stage-lit) .rv .rv-i { transform: none !important; }
 .logo--dark { --logo-ink: #fff; --logo-red: rgb(var(--c-campaign)); }
 
 /* ---------- Page transition: "drive-through" (see components/shell/Transition.tsx) ---------- */
-.tr { position: fixed; inset: 0; z-index: 90; pointer-events: none; visibility: hidden; --twr: clamp(22px, 4.2vw, 38px); }
+.tr { position: fixed; inset: 0; z-index: 90; overflow: hidden; pointer-events: none; visibility: hidden; --twr: clamp(22px, 4.2vw, 38px); }
 .tr[data-on] { visibility: visible; pointer-events: auto; }
-.tr__a, .tr__b { position: absolute; inset: 0; transform: translateX(-101%); will-change: transform; }
+.tr__a, .tr__b { position: absolute; inset: 0; will-change: transform; } /* no CSS transform here: GSAP owns it */
 .tr__a { background: rgb(var(--c-tarmac)); }
 .tr__b { background: rgb(var(--c-omegi)); color: #fff; display: grid; place-items: center; }
 .tr__stage { text-align: center; padding: 0 var(--gutter); margin-top: -6vh; }
@@ -95,8 +99,8 @@ html.js.rv-failsafe:not(.stage-lit) .rv .rv-i { transform: none !important; }
 /* ---------- Layout helpers ---------- */
 .site-pad { padding-bottom: calc(var(--dock-h) + env(safe-area-inset-bottom, 0px)); }
 @media (min-width: 768px) { .site-pad { padding-bottom: 0; } }
-.dock { padding-bottom: env(safe-area-inset-bottom, 0px); }
-.dock[data-hidden="true"] { transform: translateY(110%); }
+.dock { padding-bottom: env(safe-area-inset-bottom, 0px); transform: translate3d(0, 0, 0); will-change: transform; contain: layout paint; }
+.dock[data-hidden="true"] { transform: translate3d(0, 110%, 0); }
 
 /* ---------- Money / payment ---------- */
 .pay-bar { position: relative; height: 6px; border-radius: 999px; background: rgb(var(--c-rule)); overflow: hidden; }
@@ -105,20 +109,20 @@ html.js.rv-failsafe:not(.stage-lit) .rv .rv-i { transform: none !important; }
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
-  html.js .rv:not(.is-in) .rv-i { transform: none; }
+  html.js .rv:not(.is-in) .rv-i { opacity: 1; }
 }
 
 /* ---------- Scroll rise + card entrance ---------- */
 /* Below-the-fold items are marked pending by JS (never hidden by CSS alone), so content is visible by default. */
-html.js [data-rise][data-pending] { opacity: 0; transform: translateY(28px); }
+html.js [data-rise][data-pending] { opacity: 0; }
 .card-in { animation: card-in .6s var(--ease-out) both; }
 @keyframes card-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { html.js [data-rise][data-pending] { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { html.js [data-rise][data-pending] { opacity: 1; } }
 
 /* Hero: first slide's text starts hidden (before hydration) so the intro doesn't flash */
-html.js [data-hero-intro]:not([data-in]) [data-h] { opacity: 0; transform: translateY(34px); }
-html.js.rv-failsafe:not(.stage-lit) [data-hero-intro] [data-h] { opacity: 1 !important; transform: none !important; }
-@media (prefers-reduced-motion: reduce) { html.js [data-hero-intro]:not([data-in]) [data-h] { opacity: 1; transform: none; } }
+html.js [data-hero-intro]:not([data-in]) [data-h] { opacity: 0; }
+html.js.rv-failsafe:not(.stage-lit) [data-hero-intro] [data-h] { opacity: 1 !important; }
+@media (prefers-reduced-motion: reduce) { html.js [data-hero-intro]:not([data-in]) [data-h] { opacity: 1; } }
 
 /* ---------- Toast ---------- */
 .toast-wrap { bottom: calc(var(--dock-h) + env(safe-area-inset-bottom, 0px) + 12px); }
@@ -150,3 +154,8 @@ html.js.rv-failsafe:not(.stage-lit) [data-hero-intro] [data-h] { opacity: 1 !imp
 .badge40__wheel { width: 34%; height: 34%; color: #fff; }
 @keyframes b40-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .badge40__ring { animation: none; } }
+
+/* ---------- Delivery map: a ring that pulses where the route ends ---------- */
+.map-ping { transform-box: fill-box; transform-origin: center; animation: map-ping 1.9s var(--ease-out) 1.2s infinite; }
+@keyframes map-ping { 0% { transform: scale(.7); opacity: .85; } 100% { transform: scale(2.3); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .map-ping { animation: none; opacity: .35; } }

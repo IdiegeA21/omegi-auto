@@ -51,3 +51,14 @@ Same header idea (logo and a "Main site" link), same footer as the rest of the s
 
 ## Landing page
 Offer bar, then a one-car-at-a-time hero. The "Pay 40% and drive" badge (a ring of text turning around the wheel) appears only on cars with installment open; other slides show their plain price and "Financing on this car: ask us." Slide heights are balanced by design (two-line title, fixed payment area) so the page does not jump. Below: stats from real data, the services ticker, featured cars, shop by brand, a down-payment browser, the Deposit Bar band, tool tiles, a quote band in the dealership's own words, services, recently sold, Instagram, and FAQ.
+
+## Motion rules (learned the hard way)
+1. **Never put a CSS transform on an element that GSAP also animates.** GSAP reads a stylesheet transform as pixels, then adds its own `xPercent` or `yPercent` on top, so the element ends up in the wrong place. Pre-hide with `opacity` and let GSAP set the starting offset itself (it also zeroes `x` and `y` explicitly). This was the cause of the page transition's panels never covering the screen and of headings popping in late.
+2. **Nothing may make the page wider than the screen.** `html` and `body` use `overflow-x: clip`; fixed overlays (preloader, transition, dialogs) use `overflow: hidden`; the hero image is scaled inside a static, clipped wrapper. A transient overflow widens the mobile layout viewport (390 px became 408 px in testing), which misplaces fixed elements such as the dock.
+3. The dock sits on its own compositing layer (`translate3d`, `will-change`, `contain`).
+
+## Page transition, as built
+Black then red panels sweep left to right; the destination name rises; the wheel and its rail are children of the red panel (so they can never appear before it) and the wheel rolls with its spin computed from distance; everything drives off to the right. About 2 seconds.
+
+## Delivery map
+`data/nigeria.json` holds the outline and all 36 state capitals plus Abuja (12 flagged `major`). `lib/geo.ts` projects them on the server; `components/pages/DeliveryMap.tsx` draws the dot-matrix map, the route (a dotted arc from Lagos) and the rolling wheel. Region chips, a state selector and a free-text field all drive the same selection, and the button and message name the destination. It shows no distance, time or cost. To make a city labelled, set `"major": true` in the JSON.

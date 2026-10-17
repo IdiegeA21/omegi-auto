@@ -71,7 +71,7 @@ export function ShortlistProvider({ children }: { children: ReactNode }) {
   return (
     <Ctx.Provider value={{ open, close }}>
       {children}
-      <dialog ref={dlg} data-lenis-prevent aria-labelledby="sl-title" className="fixed inset-0 m-0 h-full max-h-none w-full max-w-none border-0 bg-transparent p-0 backdrop:bg-transparent">
+      <dialog ref={dlg} data-lenis-prevent aria-labelledby="sl-title" className="fixed inset-0 m-0 h-full max-h-none w-full max-w-none overflow-hidden border-0 bg-transparent p-0 backdrop:bg-transparent">
         <div ref={scrim} className="absolute inset-0 bg-tarmac/55" onClick={close} />
         <div ref={panel} className="absolute right-0 top-0 flex h-full w-[min(94vw,460px)] flex-col bg-showroom">
           <div className="flex items-start justify-between gap-4 border-b border-rule px-6 pb-4 pt-6">

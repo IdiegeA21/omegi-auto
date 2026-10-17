@@ -61,17 +61,3 @@ export function PreOrderForm() {
     </FormShell>
   );
 }
-
-/** Delivery: where should it go? */
-export function DeliveryForm({ cars }: { cars: PublicCar[] }) {
-  const open = useEnquiry()?.open ?? ((r: EnquiryRequest) => { window.open(enquiryChannel(buildMessage(r)).href, "_blank", "noopener"); });
-  return (
-    <FormShell submit="Message us for delivery" onSubmit={(f) => open({
-      kind: "delivery", title: "Delivery to your city", intro: "I'd like delivery to my city.",
-      details: collect(f, [["city", "City"], ["car", "Car"]]), chips: ["How does delivery work?"],
-    })}>
-      <Field label="Your city" name="city" required placeholder="e.g. Abuja" autoComplete="address-level2" />
-      <SelectField label="Car (if you have one in mind)" name="car" options={carOptions(cars)} />
-    </FormShell>
-  );
-}

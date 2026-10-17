@@ -16,7 +16,7 @@ export default function Reveal({ text, as = "h2", className = "", delay = 0, sta
     if (prefersReducedMotion()) { show(); return; }
     let tween: gsap.core.Tween | null = null;
     const cancel = gate.whenOpen(() => {
-      tween = gsap.fromTo(inner, { yPercent: 105 }, { yPercent: 0, duration: 1.05, ease: ease.out, stagger, delay, onComplete: show });
+      tween = gsap.fromTo(inner, { x: 0, y: 0, yPercent: 105, opacity: 1 }, { yPercent: 0, opacity: 1, duration: 1.05, ease: ease.out, stagger, delay, onComplete: show });
     });
     return () => { cancel(); tween?.kill(); show(); };
   }, [text, delay, stagger]);

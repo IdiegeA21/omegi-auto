@@ -1,6 +1,6 @@
 /* ---------- Preloader: the logo assembles in pure CSS from first paint (no JS needed), then GSAP lifts the curtain ----------
    Transform and opacity only. Origins come from CSS variables set on the SVG by components/brand/Logo.tsx. */
-.preloader { position: fixed; inset: 0; z-index: 100; background: rgb(var(--c-showroom)); display: none; place-items: center; will-change: transform; }
+.preloader { position: fixed; inset: 0; overflow: hidden; z-index: 100; background: rgb(var(--c-showroom)); display: none; place-items: center; will-change: transform; }
 html.js:not([data-seen="1"]) .preloader { display: grid; animation: pl-failsafe .01s linear 8s forwards; }
 @keyframes pl-failsafe { to { opacity: 0; visibility: hidden; } }
 

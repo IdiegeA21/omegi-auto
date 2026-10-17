@@ -62,7 +62,7 @@ export function MenuProvider({ children }: { children: ReactNode }) {
   return (
     <Ctx.Provider value={{ isOpen, open, close }}>
       {children}
-      <dialog ref={dlg} data-lenis-prevent aria-label="Site menu" className="fixed inset-0 m-0 h-full max-h-none w-full max-w-none border-0 bg-transparent p-0 backdrop:bg-transparent">
+      <dialog ref={dlg} data-lenis-prevent aria-label="Site menu" className="fixed inset-0 m-0 h-full max-h-none w-full max-w-none overflow-hidden border-0 bg-transparent p-0 backdrop:bg-transparent">
         <div ref={scrim} className="absolute inset-0 bg-tarmac/55" onClick={close} />
         <div ref={panel} className="absolute inset-x-0 bottom-0 flex max-h-[90dvh] flex-col overflow-hidden rounded-t-[1.75rem] bg-showroom md:inset-x-auto md:right-0 md:top-0 md:max-h-none md:h-full md:w-[480px] md:rounded-none">
           <div className="flex items-center justify-between px-6 pb-2 pt-5">

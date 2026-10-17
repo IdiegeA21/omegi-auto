@@ -49,7 +49,7 @@ export default function Hero({ cars }: { cars: PublicCar[] }) {
       .to(a, { opacity: 0, duration: 0.45, ease: "power2.out" }, 0)
       .fromTo(b, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 0.15)
       .fromTo(b.querySelectorAll("[data-h]"), { y: 34, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: ease.out, stagger: 0.07 }, 0.2)
-      .fromTo(b.querySelector("[data-media]"), { scale: 1.07, x: 26 }, { scale: 1, x: 0, duration: 1.3, ease: ease.out }, 0.1);
+      .fromTo(b.querySelector("[data-media]"), { scale: 1.07, x: 18 }, { scale: 1, x: 0, duration: 1.3, ease: ease.out }, 0.1);
     const badge = b.querySelector("[data-badge]");
     if (badge) gsap.fromTo(badge, { scale: 0.4, rotation: -50, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: 1, ease: "back.out(1.7)", delay: 0.55 });
   }, [n]);
@@ -93,7 +93,7 @@ export default function Hero({ cars }: { cars: PublicCar[] }) {
   };
 
   return (
-    <section ref={root} aria-roledescription="carousel" aria-label="Featured cars" onKeyDown={onKey}
+    <section ref={root} className="overflow-x-clip" aria-roledescription="carousel" aria-label="Featured cars" onKeyDown={onKey}
       onPointerEnter={(e) => e.pointerType === "mouse" && hold(true)} onPointerLeave={(e) => e.pointerType === "mouse" && hold(false)}
       onFocus={() => hold(true)} onBlur={() => hold(false)}>
       <div className="wrap pb-8 pt-6 md:pb-10 md:pt-8">
@@ -132,8 +132,10 @@ export default function Hero({ cars }: { cars: PublicCar[] }) {
                 <div className="md:order-2 md:col-span-7" data-media-wrap onPointerDown={onDown} onPointerUp={onUp} style={{ touchAction: "pan-y" }}>
                   <div className="relative">
                   {v.installment && <div className="absolute -right-2 -top-4 z-10 md:-right-5 md:-top-6"><Badge40 id={`b40-${car.id}`} /></div>}
-                  <div data-media className="overflow-hidden rounded-[1.75rem]">
-                    <CarMedia car={mediaCar} priority={k === 0} sizes="(min-width:768px) 58vw, 94vw" ratio="aspect-[4/3] md:aspect-[5/4]" zoom={false} />
+                  <div className="overflow-hidden rounded-[1.75rem]">
+                    <div data-media>
+                      <CarMedia car={mediaCar} priority={k === 0} sizes="(min-width:768px) 58vw, 94vw" ratio="aspect-[4/3] md:aspect-[5/4]" zoom={false} />
+                    </div>
                   </div>
                   </div>
                 </div>

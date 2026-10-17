@@ -71,7 +71,7 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
   return (
     <Ctx.Provider value={{ open }}>
       {children}
-      <dialog ref={dlg} data-lenis-prevent aria-label="Message us on WhatsApp" aria-labelledby={req ? "enq-title" : undefined} className="fixed inset-0 m-0 h-full max-h-none w-full max-w-none border-0 bg-transparent p-0 backdrop:bg-transparent">
+      <dialog ref={dlg} data-lenis-prevent aria-label="Message us on WhatsApp" aria-labelledby={req ? "enq-title" : undefined} className="fixed inset-0 m-0 h-full max-h-none w-full max-w-none overflow-hidden border-0 bg-transparent p-0 backdrop:bg-transparent">
         <div ref={scrim} className="absolute inset-0 bg-tarmac/60" onClick={close} />
         <div className="pointer-events-none relative flex h-full items-end justify-center md:items-center md:p-6">
           <div ref={panel} data-lenis-prevent className="pointer-events-auto max-h-[94dvh] w-full overflow-y-auto overscroll-contain rounded-t-[1.75rem] bg-showroom md:max-w-[560px] md:rounded-[1.75rem]">
