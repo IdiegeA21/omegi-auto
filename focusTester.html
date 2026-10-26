@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Tracker Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: background-color 0.1s ease;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 { margin-top: 0; color: #2c3e50; }
+        .status-box {
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .active { background-color: #d4edda; color: #155724; }
+        .alert { background-color: #f8d7da; color: #721c24; }
+        #log {
+            text-align: left;
+            background: #272822;
+            color: #f8f8f2;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+            height: 120px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainContainer">
+        <h1>Focus Monitor Test</h1>
+        <p>This page uses multi-layered tracking (`blur`, `visibilitychange`, and `mouseleave`) to detect if your focus leaves.</p>
+        
+        <div id="statusBox" class="status-box active">
+            Status: Active & Focused
+        </div>
+
+        <h3>Event Log:</h3>
+        <div id="log"></div>
+    </div>
+
+    <script>
+        const statusBox = document.getElementById('statusBox');
+        const body = document.body;
+        const logBox = document.getElementById('log');
+
+        function logEvent(message) {
+            const time = new Date().toLocaleTimeString();
+            logBox.innerHTML += `[${time}] ${message}<br>`;
+            logBox.scrollTop = logBox.scrollHeight;
+        }
+
+        function triggerRedScreen(reason) {
+            body.style.backgroundColor = '#ff4d4d'; // Bright Red Background
+            statusBox.className = 'status-box alert';
+            statusBox.innerHTML = `ALERT: Focus Lost! (${reason})`;
+            logEvent(`ALERT TRIGGERED: ${reason}`);
+        }
+
+        function resetScreen() {
+            body.style.backgroundColor = '#f4f4f9';
+            statusBox.className = 'status-box active';
+            statusBox.innerHTML = 'Status: Active & Focused';
+            logEvent('Focus regained.');
+        }
+
+        // 1. Window Blur (Triggers when alt-tabbing, clicking outside browser, or pulling up an OS overlay)
+        window.addEventListener('blur', () => {
+            triggerRedScreen('Window Lost Blur');
+        });
+
+        window.addEventListener('focus', () => {
+            resetScreen();
+        });
+
+        // 2. Visibility Change (Triggers instantly if you switch tabs or minimize the browser window)
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                triggerRedScreen('Tab Hidden / Minimized');
+            } else {
+                resetScreen();
+            }
+        });
+
+        // 3. Mouse Leave (Extra check: triggers if mouse cursor leaves the browser window viewport entirely)
+        document.addEventListener('mouseleave', () => {
+            logEvent('Warning: Mouse left the document viewport.');
+        });
+    </script>
+
+</body>
+</html>
